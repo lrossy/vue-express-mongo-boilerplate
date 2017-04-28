@@ -47,7 +47,7 @@ module.exports = {
 	test: false,
 
 	db: {
-		uri: process.env.MONGO_URI || "mongodb://localhost/" + pkg.config.dbName + "-dev",
+		uri: process.env.MONGO_URI || "mongodb://192.168.2.32/" + pkg.config.dbName + "-dev",
 		options: {
 			user: "",
 			pass: "",
@@ -61,7 +61,7 @@ module.exports = {
 
 	redis: {
 		enabled: false,
-		uri: process.env.REDIS_URI || "redis://localhost:6379",
+		uri: process.env.REDIS_URI || "redis://192.168.2.32:6379",
 		options: null
 	},
 
@@ -130,7 +130,7 @@ module.exports = {
 		twitter: {
 			clientID: null,
 			clientSecret: null
-		}		
+		}
 	},
 
 	logging: {
@@ -169,17 +169,17 @@ module.exports = {
 			token: null,
 			subdomain: null
 		},
-		
+
 		logsene: {
 			enabled: false,
 			token: null
 		},
-		
+
 		logzio: {
 			enabled: false,
 			token: null
 		}
-		
+
 	},
 
 	agendaTimer: "one minute",
