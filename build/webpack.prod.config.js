@@ -64,10 +64,10 @@ module.exports = merge(baseWpConfig, {
 			//exclude: [/node_modules[\\\/]react/]
 		})*/
 
-		new BundleAnalyzerPlugin({
-			analyzerMode: 'static',
-			reportFilename: path.join(__dirname, 'report.html'),
-			openAnalyzer: false
-		})
+		// new BundleAnalyzerPlugin({
+		// 	analyzerMode: 'static',
+		// 	reportFilename: path.join(__dirname, 'report.html'),
+		// 	openAnalyzer: false
+		// })
 	]
 });
