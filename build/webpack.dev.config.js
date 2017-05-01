@@ -19,9 +19,13 @@ module.exports = merge(baseWpConfig, {
 				loaders: ["style-loader", "css-loader", "postcss-loader", "sass-loader"]
 			},
 			{
+				test: /\.less$/,
+				loaders: ["style-loader", "css-loader", "less-loader"]
+			},
+			{
 				test: /\.vue$/,
 				loader: "vue-loader"
-			}			
+			}
 		]
 	},
 
