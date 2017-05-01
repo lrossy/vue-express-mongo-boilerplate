@@ -74,6 +74,14 @@ module.exports = merge(baseWpConfig, {
 			chunkModules: true
 			//exclude: [/node_modules[\\\/]react/]
 		})*/
+		
+		new webpack.ProvidePlugin({
+			$: "jquery",
+			jQuery: "jquery",
+			"window.jQuery": "jquery",
+			"window.Tether": 'tether',
+			Tether: 'tether'
+		}),
 
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static',
