@@ -5,117 +5,14 @@ block styles
 	link(rel='stylesheet', href='/app/styles/frontend.css')
 
 block content
-	section.bar.bar-3.bar--sm.bg--secondary
-			.container
-					.row
-							.col-md-6
-									.bar__module
-											span.type--fade Stack | Multipurpose HTML Template with Variant Page Builder
-							.col-md-6.text-right.text-left-xs.text-left-sm
-									.bar__module
-											ul.menu-horizontal
-													li
-															.modal-instance
-																	a.modal-trigger(href='#') Login
-																	.modal-container
-																			.modal-content
-																					section.unpad
-																							.container
-																									.row
-																											.col-sm-6.col-md-offset-3.col-sm-offset-3.col-xs-12
-																													.boxed.boxed--lg.bg--white.text-center.feature
-																															.modal-close.modal-close-cross
-																															h3 Login to Your Account
-																															a.btn.block.btn--icon.bg--facebook.type--uppercase(href='#')
-																																	span.btn__text
-																																			i.socicon-facebook
-																																			|                                                                             Login with Facebook
-																															a.btn.block.btn--icon.bg--twitter.type--uppercase(href='#')
-																																	span.btn__text
-																																			i.socicon-twitter
-																																			|                                                                             Login with Twitter
-																															hr(data-title='OR')
-																															.feature__body
-																																	form
-																																			.row
-																																					.col-sm-12
-																																							input(type='text', placeholder='Username')
-																																					.col-sm-12
-																																							input(type='password', placeholder='Password')
-																																					.col-sm-12
-																																							button.btn.btn--primary.type--uppercase(type='submit') Login
-																																			// end of row
-																																	span.type--fine-print.block
-																																			| Dont have an account yet?
-																																			a(href='#') Create account
-																																	span.type--fine-print.block
-																																			| Forgot your username or password?
-																																			a(href='#') Recover account
-																									// end of row
-																							// end of container
-													li
-															.modal-instance
-																	a.modal-trigger(href='#') Create Account
-																	.modal-container
-																			.modal-content
-																					section.imageblock.feature-large.bg--white.border--round
-																							.imageblock__content.col-md-5.col-sm-3.pos-left
-																									.background-image-holder
-																											img(alt='image', src='/app/images/cowork-11.jpg')
-																							.container
-																									.row
-																											.col-md-5.col-md-push-6.col-sm-7.col-sm-push-4
-																													h2 Create an account
-																													p.lead
-																															| Get started with a 14 day free trial, No credit card required — cancel at any time.
-																													a.btn.block.btn--icon.bg--facebook.type--uppercase(href='#')
-																															span.btn__text
-																																	i.socicon-facebook
-																																	|                                                                         Sign up with Facebook
-																													a.btn.block.btn--icon.bg--twitter.type--uppercase(href='#')
-																															span.btn__text
-																																	i.socicon-twitter
-																																	|                                                                         Sign up with Twitter
-																													hr(data-title='OR')
-																													form
-																															.row
-																																	.col-xs-12
-																																			input(type='email', name='Email Address', placeholder='Email Address')
-																																	.col-xs-12
-																																			input(type='password', name='Password', placeholder='Password')
-																																	.col-xs-12
-																																			button.btn.btn--primary.type--uppercase(type='submit') Create Account
-																																	.col-xs-12
-																																			span.type--fine-print
-																																					| By signing up, you agree to the
-																																					a(href='#') Terms of Service
-																															// end row
-																									// end of row
-																							// end of container
-													li
-															a(href='#', data-notification-link='search-box')
-																	i.stack-search
-													li
-															a(href='shop-cart.html')
-																	i.stack-basket
-													li.dropdown
-															span.dropdown__trigger
-																	img.flag(alt='Image', src='/app/images/flag-1.png')
-															.dropdown__container
-																	.container
-																			.row
-																					.col-md-1.dropdown__content
-																							ul.menu-vertical.text-left
-																									li
-																											a(href='#') ENG
-																									li
-																											a(href='#') GER
-													li
-															a(href='#', data-notification-link='side-menu')
-																	i.stack-dot-3
-					// end of row
-			// end of container
+	include parts/index_head
+	include parts/index_nav
+	include parts/index_main
 
+	.buttons
+		a.button(href="/login")=t("Login")
+		if features.disableSignUp !== true
+			a.button(href="/signup")=t("Signup")
 
 	include parts/footer
 
