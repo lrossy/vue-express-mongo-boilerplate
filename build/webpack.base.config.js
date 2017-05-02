@@ -86,6 +86,16 @@ module.exports = {
 					prefix: "font/"
 				}
 			}
+		],
+		loaders: [
+			{
+				test: /[\/\\]node_modules[\/\\]some-module[\/\\]index\.js$/,
+				loader: "imports-loader?this=>window"
+			},
+			{
+				test: /[\/\\]node_modules[\/\\]smooth-scroll[\/\\]dist[\/\\]js[\/\\]smooth-scroll\.js$/,
+				loader: "imports?this=>window"
+			}
 		]
 	},
 
@@ -103,6 +113,15 @@ module.exports = {
 	},
 
 	plugins: [
+		new webpack.ProvidePlugin({
+			$: "jquery",
+			jQuery: "jquery",
+			"window.jQuery": "jquery",
+			"window.Tether": 'tether',
+			'window.$': 'jquery',
+			Tether: 'tether'
+		}),
+
 		new webpack.optimize.CommonsChunkPlugin({
 			name: "vendor",
 			minChunks: function (module, count) {

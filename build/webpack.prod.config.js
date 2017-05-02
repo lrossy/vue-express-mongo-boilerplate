@@ -77,14 +77,6 @@ module.exports = merge(baseWpConfig, {
 			//exclude: [/node_modules[\\\/]react/]
 		})*/
 
-		new webpack.ProvidePlugin({
-			$: "jquery",
-			jQuery: "jquery",
-			"window.jQuery": "jquery",
-			"window.Tether": 'tether',
-			Tether: 'tether'
-		}),
-
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static',
 			reportFilename: path.join(__dirname, 'report.html'),

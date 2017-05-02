@@ -8,7 +8,6 @@ block content
 	include parts/index_head
 	include parts/index_nav
 	include parts/index_main
-
 	.buttons
 		a.button(href="/login")=t("Login")
 		if features.disableSignUp !== true
@@ -17,6 +16,9 @@ block content
 	include parts/footer
 
 block scripts
-	script(src='/app/vendor.js')
 	script(src='/app/frontend.js')
+	script(src='/app/js/jquery-3.1.1.min.js')
+	script(src='/app/js/smooth-scroll.min.js')
+	script(src='/app/js/scripts.js')
+
 
