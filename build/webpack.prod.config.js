@@ -10,6 +10,8 @@ let BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlug
 
 let ExtractTextPlugin = require("extract-text-webpack-plugin");
 
+let projectRoot = path.resolve(__dirname, '../');
+
 let extractLoaders = [{
 	loader: "css-loader",
 	options: {
@@ -74,7 +76,7 @@ module.exports = merge(baseWpConfig, {
 			chunkModules: true
 			//exclude: [/node_modules[\\\/]react/]
 		})*/
-		
+
 		new webpack.ProvidePlugin({
 			$: "jquery",
 			jQuery: "jquery",
