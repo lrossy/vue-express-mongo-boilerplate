@@ -1,0 +1,48 @@
+h3 Login to Your Account
+if socialAuth
+	.socials
+	if socialAuth.facebook
+		a.btn.block.btn--icon.bg--facebook.type--uppercase(href="/auth/facebook", title=t("LoginFacebook"))
+				span.btn__text
+						i.socicon-facebook
+						| Login with Facebook
+	if socialAuth.twitter
+		a.btn.block.btn--icon.bg--twitter.type--uppercase(href="/auth/twitter", title=t("LoginTwitter"))
+				span.btn__text
+						i.socicon-twitter
+						| Login with Twitter
+	hr(data-title='OR')
+.feature__body
+		form(action='/auth/local', method='POST')
+				input(type="hidden", name="_csrf" value=_csrf)
+				.row
+						.col-sm-12
+								label(for='username')= t("UsernameOrEmail")
+								input(type='text', name='username', id='username', placeholder=t("YourUsernameOrEmailAddress"))
+								.hint
+						.col-sm-12
+								label(for='password')= t("PasswordSC")
+								input(type='password', name='password', id='password', placeholder=t("Password"))
+								.hint= t("PasswordlessLoginHint")
+						.flash
+							if messages.error
+								.alert.alert-danger
+								for error in messages.error
+										div= error.msg
+							if messages.info
+								.alert.alert-success
+									for info in messages.info
+										div= info.msg
+
+						if messages.error
+							.forgot
+								a(href='/forgot')= t("ForgotYourPassword")
+						.col-sm-12
+								button.btn.btn--primary.type--uppercase(type='submit') Login
+				// end of row
+		span.type--fine-print.block
+				| Dont have an account yet?
+				a(href='/signup') Create account
+		span.type--fine-print.block
+				| Forgot your username or password?
+				a(href='/forgot') Recover account

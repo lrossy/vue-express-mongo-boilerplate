@@ -19,51 +19,9 @@ section.bar.bar-3.bar--sm.bg--secondary
                           .col-sm-6.col-md-offset-3.col-sm-offset-3.col-xs-12
                             .boxed.boxed--lg.bg--white.text-center.feature
                               .modal-close.modal-close-cross
-                              h3 Login to Your Account
-                              a.btn.block.btn--icon.bg--facebook.type--uppercase(href='#')
-                                span.btn__text
-                                  i.socicon-facebook
-                                  | Login with Facebook
-                              a.btn.block.btn--icon.bg--twitter.type--uppercase(href='#')
-                                span.btn__text
-                                  i.socicon-twitter
-                                  | Login with Twitter
-                              hr(data-title='OR')
-                              .feature__body
-                                form(action='/auth/local', method='POST')
-                                  input(type="hidden", name="_csrf" value=_csrf)
-                                  .row
-                                    .col-sm-12
-                                      label(for='username')= t("UsernameOrEmail")
-                                      input(type='text', name='username', id='username', placeholder=t("YourUsernameOrEmailAddress"))
-                                      .hint
-                                    .col-sm-12
-                                      label(for='password')= t("PasswordSC")
-                                      input(type='password', name='password', id='password', placeholder=t("Password"))
-                                      .hint= t("PasswordlessLoginHint")
-                                    .col-sm-12
-                                     .flash
-                                      if messages.error
-                                       .alert.alert-danger
-                                       for error in messages.error
-                                         div= error.msg
-                                      if messages.info
-                                       .alert.alert-success
-                                        for info in messages.info
-                                         div= info.msg
 
-                                     if messages.error
-                                      .forgot
-                                       a(href='/forgot')= t("ForgotYourPassword")
-                                    .col-sm-12
-                                      button.btn.btn--primary.type--uppercase(type='submit') Login
-                                  // end of row
-                                span.type--fine-print.block
-                                  | Dont have an account yet?
-                                  a(href='#') Create account
-                                span.type--fine-print.block
-                                  | Forgot your username or password?
-                                  a(href='#') Recover account
+                              include login
+
                         // end of row
                       // end of container
             li
@@ -78,31 +36,9 @@ section.bar.bar-3.bar--sm.bg--secondary
                       .container
                         .row
                           .col-md-5.col-md-push-6.col-sm-7.col-sm-push-4
-                            h2 Create an account
-                            p.lead
-                              | Get started with a 14 day free trial, No credit card required — cancel at any time.
-                            a.btn.block.btn--icon.bg--facebook.type--uppercase(href='#')
-                              span.btn__text
-                                i.socicon-facebook
-                                |                                                                         Sign up with Facebook
-                            a.btn.block.btn--icon.bg--twitter.type--uppercase(href='#')
-                              span.btn__text
-                                i.socicon-twitter
-                                |                                                                         Sign up with Twitter
-                            hr(data-title='OR')
-                            form
-                              .row
-                                .col-xs-12
-                                  input(type='email', name='Email Address', placeholder='Email Address')
-                                .col-xs-12
-                                  input(type='password', name='Password', placeholder='Password')
-                                .col-xs-12
-                                  button.btn.btn--primary.type--uppercase(type='submit') Create Account
-                                .col-xs-12
-                                  span.type--fine-print
-                                    | By signing up, you agree to the
-                                    a(href='#') Terms of Service
-                              // end row
+
+                            include register
+
                         // end of row
                       // end of container
             li
@@ -134,11 +70,11 @@ section.bar.bar-3.bar--sm.bg--secondary
     a.btn.btn--icon.bg--facebook.block(href='#')
       span.btn__text
         i.socicon-facebook
-        |                         Sign up with Facebook
+        | Sign up with Facebook
     a.btn.btn--icon.bg--dark.block(href='#')
       span.btn__text
         i.socicon-mail
-        |                         Sign up with Email
+        | Sign up with Email
   // end module
   hr
   .side-menu__module
