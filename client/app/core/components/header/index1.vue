@@ -1,22 +1,18 @@
 <template lang="pug">
-	div.nav-container
-		mobile-nav
-		main-nav
+	section.page-header
 
-		<!--//logo.left-->
+		logo.left
 
-		<!--.menu-toggle.left(@click="toggleSidebar()")-->
-			<!--i.fa.fa-bars-->
+		.menu-toggle.left(@click="toggleSidebar()")
+			i.fa.fa-bars
 
-		<!--search-box.left-->
+		search-box.left
 
-		<!--user-box.right-->
+		user-box.right
 
 </template>
 
 <script>
-	import MobileNav from "./mobile";
-	import MainNav from "./mainnav";
 	import Logo from "./logo";
 	import SearchBox from "./search-box";
 	import UserBox from "./user-box";
@@ -25,8 +21,6 @@
 		components: {
 			Logo,
 			SearchBox,
-			MobileNav,
-			MainNav,
 			UserBox
 		},
 
