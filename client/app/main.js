@@ -1,9 +1,10 @@
 "use strict";
 
 require("es6-promise/auto");
+require('bootstrap');
 
 import Vue from "vue";
-//import BootstrapVue from 'bootstrap-vue';
+// import Bootstrap from 'bootstrap';
 
 import axios from "axios";
 axios.defaults.headers.post["Content-Type"] = "application/json";

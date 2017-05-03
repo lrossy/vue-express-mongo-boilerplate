@@ -31,10 +31,11 @@ if socialAuth
 				.hint
 			.form-group.switch
 				div= t("PasswordlessAccount")
-				input(type='checkbox', name='passwordless', id='passwordless')
-				label(for='passwordless')
-				.hint
-			.form-group.switch
+				.input-checkbox.input-checkbox--switch
+					.inner
+						input(name='passwordless', type='checkbox', id='passwordless')
+						label(for='passwordless')
+			.form-group
 				label(for='password')= t("PasswordSC")
 				input(type='password', name='password', id='password', placeholder=t("Password"))
 			.flash
