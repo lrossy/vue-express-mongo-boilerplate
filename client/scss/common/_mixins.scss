@@ -29,7 +29,7 @@
 
 @mixin ellipsis() {
 	white-space: nowrap;
-	text-overflow: ellipsis;	
+	text-overflow: ellipsis;
 	overflow: hidden;
 }
 
@@ -109,5 +109,5 @@
 		scrollbar-face-color: $foreground-color;
 		scrollbar-track-color: $background-color;
 	}
-	
+
 }

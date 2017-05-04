@@ -63,3 +63,6 @@ data
 
 # Typings definitions
 typings
+
+# WebStorm files
+.idea

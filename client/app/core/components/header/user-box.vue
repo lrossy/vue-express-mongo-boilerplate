@@ -1,27 +1,25 @@
 <template lang="pug">
-	.user-box(v-if="me")
-	
-		.user-info.right(@click="toggleUserMenu()")
-			img.avatar(:src='me.avatar')
-			.username {{ me.fullName }}
-			i.fa.fa-chevron-down
+	.user-box(v-if="me").dropdown
 
+		.user-info.dropdown-toggle(type='button', data-toggle='dropdown')
+			span.username {{ me.fullName }}
+			span.caret
 		user-dropdown(:visible="expandedUserMenu")
 
-		.notification-box.right
-			ul.icons
-				li(@click="toggleNotifications()", :class=" { active: notifications.length > 0 }")
-					i.fa.fa-bell-o
-					span {{ notifications.length }}
-					.ring
+		<!--.notification-box.right-->
+			<!--ul.icons-->
+				<!--li(@click="toggleNotifications()", :class=" { active: notifications.length > 0 }")-->
+					<!--i.fa.fa-bell-o-->
+					<!--span {{ notifications.length }}-->
+					<!--.ring-->
 
-				li(@click="toggleMessages()", :class=" { active: messages.length > 0 }")
-					i.fa.fa-envelope-o
-					span {{ messages.length }}
-					.ring
-			
-			notifications-dropdown(:visible="expandedNotifications")
-			messages-dropdown(:visible="expandedMessages")
+				<!--li(@click="toggleMessages()", :class=" { active: messages.length > 0 }")-->
+					<!--i.fa.fa-envelope-o-->
+					<!--span {{ messages.length }}-->
+					<!--.ring-->
+			<!---->
+			<!--notifications-dropdown(:visible="expandedNotifications")-->
+			<!--messages-dropdown(:visible="expandedMessages")-->
 
 
 </template>
@@ -83,7 +81,7 @@
 		}
 
 	};
-	
+
 </script>
 
 <style lang="scss">

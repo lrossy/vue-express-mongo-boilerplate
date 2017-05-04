@@ -15,7 +15,7 @@ let projectRoot = path.resolve(__dirname, '../');
 let extractLoaders = [{
 	loader: "css-loader",
 	options: {
-		modules: true
+		modules: false
 	}
 }, {
 	loader: "postcss-loader"
