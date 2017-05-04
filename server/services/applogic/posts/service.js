@@ -40,8 +40,11 @@ module.exports = {
 			handler(ctx) {
 				let filter = {};
 
-				if (ctx.params.filter == "my")
+				if (ctx.params.filter == "my"){
+					console.log('ctx',ctx);
 					filter.author = ctx.user.id;
+
+				}
 				else if (ctx.params.author != null)
 					filter.author = ctx.params.author;
 
@@ -99,10 +102,10 @@ module.exports = {
 					.then(json => this.populateModels(ctx, json))
 					.then(json => {
 						this.notifyModelChanges(ctx, "changed", json, ctx.params.$user);
-						
+
 						// Clear cached values
 						this.clearCache();
-						
+
 						return json;
 					});
 			}
@@ -132,7 +135,7 @@ module.exports = {
 					.then(json => this.populateModels(ctx, json))
 					.then((json) => {
 						this.notifyModelChanges(ctx, "updated", json, ctx.params.$user);
-						
+
 						// Clear cached values
 						this.clearCache();
 
@@ -160,7 +163,7 @@ module.exports = {
 					.then(json => this.populateModels(ctx, json))
 					.then((json) => {
 						this.notifyModelChanges(ctx, "removed", json, ctx.params.$user);
-						
+
 						// Clear cached values
 						this.clearCache();
 
@@ -194,7 +197,7 @@ module.exports = {
 				.then(json => this.populateModels(ctx, json))
 				.then(json => {
 					this.notifyModelChanges(ctx, "voted", json, ctx.params.$user);
-					
+
 					// Clear cached values
 					this.clearCache();
 
@@ -227,7 +230,7 @@ module.exports = {
 				.then(json => this.populateModels(ctx, json))
 				.then(json => {
 					this.notifyModelChanges(ctx, "unvoted", json, ctx.params.$user);
-					
+
 					// Clear cached values
 					this.clearCache();
 

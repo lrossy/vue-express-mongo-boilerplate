@@ -1,13 +1,13 @@
 @import "normalize";
 
 * {
-	box-sizing: border-box;  
+	box-sizing: border-box;
 }
 
 @import "groups";
 @import "buttons";
 @import "forms";
-@import "dropdown";
+//@import "dropdown";
 @import "tables";
 @import "lists";
 @import "alerts";
@@ -94,12 +94,12 @@ a.link {
 	color: $secondColor;
 	border-bottom: 1px solid $color2-light;
 	text-decoration: none;
-	
+
 	&:hover {
 		color: $textColor;
 		border-bottom: 1px solid $secondColor;
-	}	
-	
+	}
+
 }
 
 hr {
