@@ -16,6 +16,9 @@
 							router-link(tag="li", to="/devices")
 								a(:title="_('Devices')")
 									span {{ "Devices" | i18n }}
+							router-link(tag="li", to="/crafts")
+								a(:title="Crafts")
+									span {{ "Crafts" | i18n }}
 							router-link(tag="li", to="/posts")
 								a(:title="_('Posts')")
 									span {{ "Posts" | i18n }}
