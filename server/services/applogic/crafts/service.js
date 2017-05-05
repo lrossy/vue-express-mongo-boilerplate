@@ -38,12 +38,17 @@ module.exports = {
 			handler(ctx) {
 				let filter = {};
 
-				if (ctx.params.filter == "my"){
-					filter.user_id =ctx.params.$user.id;
+				filter.user_id =ctx.params.$user.id;
 
+				//check if admin
+				if (ctx.params.$user.roles.indexOf(C.ROLE_ADMIN) !== -1){
+					delete filter.user_id;
 				}
-				else if (ctx.params.author != null)
-					filter.user_id = ctx.params.author;
+				// if (ctx.params.filter == "my"){
+				// 	filter.user_id =ctx.params.$user.id;
+				// }
+				// else if (ctx.params.author != null)
+				// 	filter.user_id = ctx.params.author;
 
 				let query = this.collection.find(filter);
 
@@ -64,6 +69,7 @@ module.exports = {
 				return this.Promise.resolve(ctx)
 				.then(ctx => ctx.call(this.name + ".model", { code: ctx.params.code }))
 				.then(model => this.checkModel(model, "app:DeviceNotFound"))
+				.then(model => this.checkModelOwner(model, "user_id", ctx.params.$user))
 				.then(doc => this.toJSON(doc))
 				.then(json => this.populateModels(ctx, json));
 			}
