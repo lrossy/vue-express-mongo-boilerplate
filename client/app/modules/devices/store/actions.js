@@ -36,7 +36,7 @@ export const saveRow = ({ commit }, model) => {
 	}).catch((response) => {
 		if (response.data.error)
 			toastr.error(response.data.error.message);
-	});		
+	});
 };
 
 export const created = ({ commit }, row, needSelect) => {
@@ -53,7 +53,7 @@ export const updateRow = ({ commit }, row) => {
 	}).catch((response) => {
 		if (response.data.error)
 			toastr.error(response.data.error.message);
-	});	
+	});
 };
 
 export const updated = ({ commit }, row) => {

@@ -1,6 +1,6 @@
 <template lang="pug">
 	div
-		admin-page(:schema="schema", :selected="selected", :rows="devices")
+		admin-page(:schema="schema", :selected="selected", :rows="crafts")
 
 		br
 		br
@@ -30,8 +30,8 @@
 			AdminPage: AdminPage
 		},
 
-		computed: mapGetters("devices", [
-			"devices",
+		computed: mapGetters("crafts", [
+			"crafts",
 			"selected"
 		]),
 
@@ -49,7 +49,7 @@
 		 */
 		socket: {
 
-			prefix: "devices.",
+			prefix: "crafts.",
 
 			events: {
 				/**
@@ -82,7 +82,7 @@
 		},
 
 		methods: {
-			...mapActions("devices", [
+			...mapActions("crafts", [
 				"downloadRows",
 				"created",
 				"updated",

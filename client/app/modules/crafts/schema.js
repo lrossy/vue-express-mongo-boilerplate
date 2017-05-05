@@ -10,7 +10,7 @@ let _ = Vue.prototype._;
 module.exports = {
 
 	id: "crafts",
-	title: _("Crafts"),
+	title: "Crafts",
 
 	table: {
 		multiSelect: true,
@@ -25,7 +25,7 @@ module.exports = {
 			},
 			{
 				title: "Class",
-				field: "c;ass",
+				field: "class",
 				formatter(value) {
 					let type = find(classTypes, (type) => type.id == value);
 					return type ? type.name : value;
