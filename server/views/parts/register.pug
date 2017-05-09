@@ -15,42 +15,43 @@ if socialAuth
 						i.socicon-twitter
 						| Sign-up with Twitter
 	hr(data-title='OR')
-	.feature__body
+.feature__body
 		form.form-horizontal(action='/signup', method='POST')
-			input(type="hidden", name="_csrf" value=_csrf)
-			.form-group
-				label(for='name')= t("NameSC")
-				input(type='text', name='name', id='name', placeholder=t("YourName"), autofocus=true, required)
-			.form-group
-				label(for='email')= t("EmailSC")
-				input(type='email', name='email', id='email', placeholder=t("YourEmail"), required)
-				.hint
-			.form-group
-				label(for='username')= t("UsernameSC")
-				input(type='text', name='username', id='username', placeholder=t("YourUsername"))
-				.hint
-			.form-group.switch
-				div= t("PasswordlessAccount")
-				.input-checkbox.input-checkbox--switch
-					.inner
-						input(name='passwordless', type='checkbox', id='passwordless')
-						label(for='passwordless')
-			.form-group
-				label(for='password')= t("PasswordSC")
-				input(type='password', name='password', id='password', placeholder=t("Password"))
-			.flash
-				if messages.error
-					.alert.alert-danger
-						for error in messages.error
-							div= error.msg
-				if messages.info
-					.alert.alert-success
-						for info in messages.info
-							div= info.msg
-			.form-group
-					button.btn.btn--primary.type--uppercase(type='submit') Create Account
-			.form-group
-					span.type--fine-print
-							| By signing up, you agree to the
-							a(href='#') Terms of Service
-		// end row
+				input(type="hidden", name="_csrf" value=_csrf)
+				.row
+						.col-sm-12
+							label(for='name')= t("NameSC")
+							input(type='text', name='name', id='name', placeholder=t("YourName"), required)
+							.hint
+						.col-sm-12
+							label(for='email')= t("EmailSC")
+							input(type='email', name='email', id='email', placeholder=t("YourEmail"), required)
+							.hint
+						.col-sm-12
+							label(for='username')= t("UsernameSC")
+							input(type='text', name='username', id='username', placeholder=t("YourUsername"))
+							.hint
+						.col-sm-12.switch
+							div= t("PasswordlessAccount")
+							.input-checkbox.input-checkbox--switch
+								.inner
+									input(name='passwordless', type='checkbox', id='passwordless')
+									label(for='passwordless')
+						.col-sm-12
+							label(for='password')= t("PasswordSC")
+							input(type='password', name='password', id='password', placeholder=t("Password"))
+						.flash
+							if messages.error
+								.alert.alert-danger
+									for error in messages.error
+										div= error.msg
+							if messages.info
+								.alert.alert-success
+									for info in messages.info
+										div= info.msg
+						.col-sm-12
+							button.btn.btn--primary.type--uppercase(type='submit') Create Account
+						.col-sm-12
+							span.type--fine-print
+									| By signing up, you agree to the
+									a(href='#') Terms of Service
