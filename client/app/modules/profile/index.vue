@@ -19,51 +19,25 @@
 			.col-md-8
 				.boxed.boxed--lg.boxed--border
 					#account-profile.account-tab(v-if="submenu === 'profile'")
-						h4 Profile
-							form
-								.row
-									.col-sm-6
-										label Real Name:
-										input(type='text', name='name', :value="profile.username")
-									.col-sm-6
-										label Display Name:
-										input(type='text', name='display-name', :value="profile.fullName")
-									.col-sm-12
-										label Email Address:
-										input(type='email', name='email', :value="profile.email")
-									.col-sm-12
-										label Province:
-										input(type='text', name='province', :value="profile.province")
-									.col-sm-12
-										label.switch
-											input(type='checkbox', name='public-profile')
-											.slider.round
-										span Allow my profile to be viewable by guests
-									.col-md-3.col-sm-4
-										button.btn.btn--primary.type--uppercase(type='submit') Save Profile
+						edit-profile-form(:profile="profile")
 					#account-notifications.account-tab(v-if="submenu === 'email'")
 						h4 Email Notifications
 							p Select the frequency with which you'd like to recieve product summary emails:
 							form
 								.row
-									.boxed.bg--secondary.boxed--border
-										.col-xs-4.text-center
-											.input-radio
-												label Never
+									.btn-group(data-toggle="buttons")
+											label.btn.active Never
+												input(type='radio', name='frequency', value='never')
 												.inner
-												input.validate-required(type='radio', name='frequency', value='never')
-										.col-xs-4.text-center
-											.input-radio.checked
-												label Weekly
+											label.btn Weekly
 												.inner
 												input.validate-required(type='radio', name='frequency', value='weekly')
-										.col-xs-4.text-center
-											.input-radio
-												label Monthly
+											label.btn Monthly
 												.inner
 												input.validate-required(type='radio', name='frequency', value='monthly')
-										.col-md-4.col-sm-5
-											button.btn.btn--primary.type--uppercase(type='submit') Save Preferences
+								.row
+									.col-md-4.col-sm-5
+										button.btn.btn--primary.type--uppercase(type='submit') Save Preferences
 					#account-password.account-tab(v-if="submenu === 'pwd'")
 						h4 Password
 							p Passwords must be at least 6 characters in length.
@@ -85,11 +59,18 @@
 </template>
 
 <script>
+
+	import EditProfileForm from './EditProfileForm.vue'
 	import Service from "../../core/service";
 
 	import { mapGetters, mapActions } from "vuex";
 
+
 	export default {
+		components: {
+			EditProfileForm
+		},
+
 		computed: mapGetters("profile", [
 			"profile"
 		]),
@@ -183,5 +164,55 @@
 
 	.slider.round:before {
 		border-radius: 50%;
+	}
+	label input[type="radio"] ~ i.fa.fa-circle-o{
+		color: #c8c8c8;    display: inline;
+	}
+	label input[type="radio"] ~ i.fa.fa-dot-circle-o{
+		display: none;
+	}
+	label input[type="radio"]:checked ~ i.fa.fa-circle-o{
+		display: none;
+	}
+	label input[type="radio"]:checked ~ i.fa.fa-dot-circle-o{
+		color: #7AA3CC;    display: inline;
+	}
+	label:hover input[type="radio"] ~ i.fa {
+		color: #7AA3CC;
+	}
+	div[data-toggle="buttons"] label.active{
+		color: #7AA3CC;
+	}
+
+	div[data-toggle="buttons"] label {
+		display: inline-block;
+		padding: 6px 12px;
+		margin-bottom: 0;
+		font-size: 14px;
+		font-weight: normal;
+		line-height: 2em;
+		text-align: left;
+		white-space: nowrap;
+		vertical-align: top;
+		cursor: pointer;
+		background-color: none;
+		border: 0px solid
+		#c8c8c8;
+		border-radius: 3px;
+		color: #c8c8c8;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+		user-select: none;
+	}
+
+	div[data-toggle="buttons"] label:hover {
+		color: #7AA3CC;
+	}
+
+	div[data-toggle="buttons"] label:active, div[data-toggle="buttons"] label.active {
+		-webkit-box-shadow: none;
+		box-shadow: none;
 	}
 </style>
