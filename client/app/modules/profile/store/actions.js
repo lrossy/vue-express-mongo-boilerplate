@@ -1,5 +1,8 @@
 import Vue from "vue";
 import toastr from "../../../core/toastr";
+import { UPDATE } from "./types";
+import axios from "axios";
+
 
 export const NAMESPACE = "/api/profile";
 
@@ -20,4 +23,7 @@ export const updateProfile = function(store, model) {
 	}).catch((err) => {
 		toastr.error(err.message);
 	});
+};
+export const updated = function({ commit }, model) {
+	commit(UPDATE, model);
 };

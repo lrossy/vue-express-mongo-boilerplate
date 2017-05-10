@@ -19,7 +19,12 @@
 			.col-md-8
 				.boxed.boxed--lg.boxed--border
 					#account-profile.account-tab(v-if="submenu === 'profile'")
-						edit-profile-form(:profile="profile")
+						<!--edit-profile-form(:profile="profile")-->
+						.profileForm
+							vue-form-generator(:schema='schema', :model='profile', :options='{}', :multiple="false", ref="form", :is-new-model="false")
+
+						.group.buttons
+							button.button.primary(@click="saveProfile") {{ _("Save") }}
 					#account-notifications.account-tab(v-if="submenu === 'email'")
 						h4 Email Notifications
 							p Select the frequency with which you'd like to recieve product summary emails:
@@ -62,6 +67,9 @@
 
 	import EditProfileForm from './EditProfileForm.vue'
 	import Service from "../../core/service";
+	import toast from "../../core/toastr";
+	import { cloneDeep, find } from "lodash";
+	import { validators, schema as schemaUtils } from "vue-form-generator";
 
 	import { mapGetters, mapActions } from "vuex";
 
@@ -71,30 +79,116 @@
 			EditProfileForm
 		},
 
-		computed: mapGetters("profile", [
-			"profile"
-		]),
-
+//		computed: mapGetters("profile", [
+//			"profile"
+//		]),
+		computed: {
+			...mapGetters("profile", [
+				"profile"
+			]),
+		...mapGetters("session", [
+			"me"
+		])
+	},
 		data(){
 			return {
-				submenu: 'profile'
+				submenu: 'profile',
+				schema: {
+					fields: [
+						{
+							type: "input",
+							inputType: "text",
+							label: "Full Name",
+							model: "fullName",
+							featured: true,
+							required: true,
+							placeholder: "Full Name",
+							validator: validators.string
+						},
+						{
+							type: "input",
+							inputType: "text",
+							label: "email",
+							model: "email",
+							featured: true,
+							required: true,
+							placeholder: "email",
+							validator: validators.email
+						},
+						{
+							type: "input",
+							inputType: "text",
+							label: "Province",
+							model: "province",
+							featured: true,
+							required: true,
+							placeholder: "Province",
+							validator: validators.string
+						}
+					]
+				}
 			}
 		},
+	/**
+		* Socket handlers. Every property is an event handler
+		*/
+	socket: {
+
+		prefix: "profile.",
+
+			events:
+		{
+
+			/**
+				* Device updated
+				* @param  {Object} res Device object
+				*/
+			updated(res)
+			{
+				this.updated(res.data);
+				toast.success(this._("DeviceNameUpdated", res), this._("DeviceUpdated"));
+			}
+		}
+
+	},
 		methods: {
 			toggleProfileMenu: function (submenu) {
 				// `this` inside methods points to the Vue instance
 				this.submenu = submenu;
 			},
 			...mapActions("profile", [
-				"getProfile"
-			])
+				"getProfile",
+				"updateProfile",
+				"updated"
+			]),
+			focusFirstInput() {
+			this.$nextTick(() => {
+				let el = document.querySelector(".profileForm .form-control:nth-child(1):not([readonly]):not(:disabled)");
+			if (el)
+				el.focus();
+		});
 		},
+			focusFirstErrorInput() {
+				this.$nextTick(() => {
+					let el = document.querySelector(".profileForm .form-group.error .form-control");
+				if (el)
+					el.focus();
+			});
+			},
+			saveProfile() {
+				if (this.$refs.form.validate()) {
 
+					this.updateProfile(this.profile);
+				} else {
+					this.focusFirstErrorInput();
+				}
+			}
+		},
 		created() {
 			this.$service = new Service("profile", this);
-
 			// Get my profile
 			this.getProfile();
+			this.focusFirstInput();
 		}
 	};
 

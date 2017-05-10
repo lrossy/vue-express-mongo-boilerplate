@@ -20,11 +20,11 @@ module.exports = {
 		graphql: true,
 		permission: C.PERM_LOGGEDIN,
 		collection: Device,
-		
+
 		hashedIdentity: true,
 		modelPropFilter: "code type address name description status lastCommunication createdAt updatedAt"
 	},
-	
+
 	actions: {
 		list: {
 			cache: {
@@ -90,7 +90,7 @@ module.exports = {
 					this.clearCache();
 
 					return json;
-				});	
+				});
 			}
 		},
 
@@ -125,13 +125,13 @@ module.exports = {
 				.then(json => this.populateModels(ctx, json))
 				.then((json) => {
 					this.notifyModelChanges(ctx, "updated", json, ctx.params.$user);
-					
+
 					// Clear cached values
 					this.clearCache();
 
 					return json;
-				});	
-			}							
+				});
+			}
 		},
 
 		remove: {
@@ -148,12 +148,12 @@ module.exports = {
 				.then(json => this.populateModels(ctx, json))
 				.then((json) => {
 					this.notifyModelChanges(ctx, "removed", json, ctx.params.$user);
-					
+
 					// Clear cached values
 					this.clearCache();
 
 					return json;
-				});		
+				});
 			}
 		}
 

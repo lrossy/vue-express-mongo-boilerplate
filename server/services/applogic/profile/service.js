@@ -24,7 +24,7 @@ module.exports = {
 		hashedIdentity: true,
 		modelPropFilter: "code username fullName email avatar passwordLess provider profile socialLinks roles apiKey lastLogin locale status createdAt updatedAt"
 	},
-	
+
 	actions: {
 		// return my profile with all properties
 		get: {
@@ -37,13 +37,115 @@ module.exports = {
 				.then(json => this.populateModels(ctx, json));
 			}
 		},
-
 		update: {
-			defaultMethod: "post",
+			defaultMethod: "put",
+			needModel: true,
+			permission: C.PERM_OWNER,
 			handler(ctx) {
-				// TODO: save profile changes
+				return this.Promise.resolve(ctx)
+					.then(ctx => this.resolveID(ctx))
+					.then(modelID => this.checkModel(modelID, "app:DeviceNotFound"))
+					.then(modelID => this.collection.findById(modelID).exec())
+					.then(doc => this.checkModelOwner(doc, "id", ctx.params.$user))
+					.then(doc => {
+
+										if (ctx.params.fullName != null)
+											doc.fullName = ctx.params.fullName;
+
+						return doc.save();
+					})
+					.then(doc => this.toJSON(doc))
+					.then(json => this.populateModels(ctx, json))
+					.then((json) => {
+						console.log('json',json);
+						// console.log('ctx',ctx);
+						this.notifyModelChanges(ctx, "updated", json, ctx.params.$user);
+
+						// Clear cached values
+						this.clearCache();
+
+						return json;
+					});
 			}
-		}
+		},
+		// update: {
+		// 	defaultMethod: "put",
+		// 	needModel: true,
+		// 	permission: C.PERM_OWNER,
+		// 	handler(ctx) {
+		// 		return this.Promise.resolve(ctx)
+		// 			.then(ctx => this.resolveID(ctx))
+		// 			.then(modelID => this.checkModel(modelID, "app:PostNotFound"))
+		// 			.then(modelID => this.collection.findById(modelID).exec())
+		// 			.then(doc => this.checkModelOwner(doc, "id", ctx.params.$user))
+		// 			.then(doc => {
+		// 				if (ctx.params.fullName != null)
+		// 					doc.fullName = ctx.params.fullName;
+        //
+		// 				if (ctx.params.province != null)
+		// 					doc.province = ctx.params.province;
+        //
+		// 				return doc.save();
+		// 			})
+		// 			.then(doc => this.toJSON(doc))
+		// 			.then(json => this.populateModels(ctx, json))
+		// 			.then((json) => {
+		// 				this.notifyModelChanges(ctx, "updated", json, ctx.params.$user);
+        //
+		// 				// Clear cached values
+		// 				this.clearCache();
+        //
+		// 				return json;
+		// 			});
+		// 	}
+		// },
+
+		// update: {
+		// 	defaultMethod: "put",
+		// 	needModel: true,
+		// 	handler(ctx) {
+		// 		return this.Promise.resolve(ctx)
+		// 			.then(ctx => this.resolveID(ctx))
+		// 			.then(modelID => this.checkModel(modelID, "app:DeviceNotFound"))
+		// 			.then(modelID => this.collection.findById(modelID).exec())
+		// 			.then(doc => {
+         //                //
+		// 				if (ctx.params.fullName != null)
+		// 					doc.fullName = ctx.params.fullName;
+        //
+		// 				if (ctx.params.province != null)
+		// 					doc.province = ctx.params.province;
+         //                //
+		// 				// if (ctx.params.name != null)
+		// 				// 	doc.name = ctx.params.name;
+         //                //
+		// 				// if (ctx.params.description != null)
+		// 				// 	doc.description = ctx.params.description;
+         //                //
+		// 				// if (ctx.params.status != null)
+		// 				// 	doc.status = ctx.params.status;
+		// 				console.log('doc', doc);
+        //
+		// 				return doc.save();
+		// 			})
+		// 			.then(doc => this.toJSON(doc))
+		// 			.then(json => this.populateModels(ctx, json))
+		// 			.then((json) => {
+		// 				this.notifyModelChanges(ctx, "updated", json, ctx.params.$user);
+        //
+		// 				// Clear cached values
+		// 				this.clearCache();
+        //
+		// 				return json;
+		// 			});
+		// 	}
+		// },
+		// update: {
+		// 	defaultMethod: "post",
+		// 	handler(ctx) {
+		// 		// TODO: save profile changes
+		// 	}
+		// }
 	},
 
 	methods: {
@@ -89,14 +191,18 @@ module.exports = {
 				google: String
 				github: String
 			}
-		`,		
+		`,
 
 		mutation: `
+					profileUpdate(fullName: String!): Profile
 		`,
 
 		resolvers: {
 			Query: {
 				profile: "get"
+			},
+			Mutation: {
+				profileUpdate: "update"
 			}
 		}
 	}
@@ -141,7 +247,7 @@ fragment profileFields on Profile {
 	createdAt
 	updatedAt
 	lastLogin
-	status  
+	status
 }
 
 */

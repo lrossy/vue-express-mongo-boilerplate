@@ -105,7 +105,7 @@
 							required: true,
 							placeholder: this._("TitleOfPost"),
 							validator: validators.string
-						},				
+						},
 						{
 							type: "textArea",
 							label: this._("Content"),
@@ -164,11 +164,11 @@
 				 * @param  {Object} res Post object
 				 */
 				removed(res) {
-					this.removed(res.data);	
+					this.removed(res.data);
 					toast.success(this._("PostNameDeleted", res), this._("PostDeleted"));
 				}
 			}
-		},	
+		},
 
 		methods: {
 			...mapActions("posts", [
@@ -198,7 +198,7 @@
 			toggleVote(post) {
 				if (this.iVoted(post))
 					this.unVote(post);
-				else 
+				else
 					this.vote(post);
 			},
 
@@ -376,9 +376,9 @@
 				}
 			}
 
-			.media-content {				
+			.media-content {
 				overflow-x: auto;
-				
+
 				h3 {
 					margin: 0 0 0.5em 0;
 				}

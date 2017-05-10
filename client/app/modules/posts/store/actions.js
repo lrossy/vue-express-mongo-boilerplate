@@ -1,12 +1,12 @@
 import Vue from "vue";
 import toastr from "../../../core/toastr";
 import Service from "../../../core/service";
-import { LOAD, LOAD_MORE, ADD, UPDATE, VOTE, UNVOTE, REMOVE, 
+import { LOAD, LOAD_MORE, ADD, UPDATE, VOTE, UNVOTE, REMOVE,
 	NO_MORE_ITEMS, FETCHING, CHANGE_SORT, CHANGE_VIEWMODE } from "./types";
 
 export const NAMESPACE	 	= "/api/posts";
 
-let service = new Service("posts"); 
+let service = new Service("posts");
 
 export const getRows = function ({commit, state}, loadMore) {
 	commit(FETCHING, true);
@@ -18,7 +18,7 @@ export const getRows = function ({commit, state}, loadMore) {
 	}).catch((err) => {
 		toastr.error(err.message);
 	}).then(() => {
-		commit(FETCHING, false);		
+		commit(FETCHING, false);
 	});
 };
 
