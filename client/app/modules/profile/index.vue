@@ -5,7 +5,7 @@
 				.boxed.boxed--lg.boxed--border
 					.text-block.text-center
 						img.image--sm(alt='avatar', :src="profile.avatar")
-						span.h5 Lucas Banks
+						span.h5 {{ profile.fullName }}
 						span {{ profile.roles[0] }}
 						span.label {{ profile.roles[0] }}
 					.text-block
@@ -70,6 +70,7 @@
 	import toast from "../../core/toastr";
 	import { cloneDeep, find } from "lodash";
 	import { validators, schema as schemaUtils } from "vue-form-generator";
+	import { provinces } from "./types";
 
 	import { mapGetters, mapActions } from "vuex";
 
@@ -85,10 +86,7 @@
 		computed: {
 			...mapGetters("profile", [
 				"profile"
-			]),
-		...mapGetters("session", [
-			"me"
-		])
+			])
 	},
 		data(){
 			return {
@@ -98,31 +96,86 @@
 						{
 							type: "input",
 							inputType: "text",
-							label: "Full Name",
-							model: "fullName",
-							featured: true,
+							label: "First Name",
+							model: "firstName",
+							featured: false,
 							required: true,
-							placeholder: "Full Name",
+							placeholder: "First Name",
 							validator: validators.string
 						},
 						{
 							type: "input",
 							inputType: "text",
-							label: "email",
-							model: "email",
-							featured: true,
+							label: "Last Name",
+							model: "lastName",
+							featured: false,
 							required: true,
-							placeholder: "email",
-							validator: validators.email
+							placeholder: "Last Name",
+							validator: validators.string
 						},
 						{
 							type: "input",
 							inputType: "text",
-							label: "Province",
-							model: "province",
+							label: "Phone",
+							model: "phone",
 							featured: true,
 							required: true,
-							placeholder: "Province",
+							placeholder: "Phone Number",
+							validator: validators.phone
+						},
+						{
+							type: "input",
+							inputType: "email",
+							label: "E-mail",
+							model: "email",
+							readonly: true,
+							disabled: true,
+							placeholder: "email",
+							validator: validators.email
+						},
+						{
+							type: "select",
+							label: "Province",
+							model: "location.province",
+							required: true,
+							values: provinces,
+							featured: true,
+							validator: validators.string
+						},
+						{
+							type: "input",
+							label: "Address",
+							model: "location.address",
+							required: true,
+							featured: false,
+							placeholder: "Enter your street address",
+							validator: validators.string
+						},
+						{
+							type: "input",
+							label: "Address",
+							model: "location.address2",
+							required: false,
+							featured: false,
+							placeholder: "Enter Apartment, Suite or Unit",
+							validator: validators.string
+						},
+						{
+							type: "input",
+							label: "City",
+							model: "location.city",
+							required: false,
+							featured: false,
+							placeholder: "Enter city",
+							validator: validators.string
+						},
+						{
+							type: "input",
+							label: "Postal Code",
+							model: "location.zip",
+							required: false,
+							featured: false,
+							placeholder: "Enter Postal Code",
 							validator: validators.string
 						}
 					]

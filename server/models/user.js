@@ -41,6 +41,74 @@ let UserSchema = new Schema({
 		"default": "",
 		validate: [validateLocalStrategyProperty, "Please fill in your full name"]
 	},
+	firstName: {
+		type: String,
+		trim: true,
+		"default": "",
+		validate: [validateLocalStrategyProperty, "Please fill in your first name"]
+	},
+	lastName: {
+		type: String,
+		trim: true,
+		"default": "",
+		validate: [validateLocalStrategyProperty, "Please fill in your last name"]
+	},
+	middleInitial: {
+		type: String,
+		trim: true,
+		"default": "",
+		validate: [validateLocalStrategyProperty, "Please fill in your middle initial"]
+	},
+suffix: {
+		type: String,
+		trim: true,
+		"default": "",
+		validate: [validateLocalStrategyProperty, "Please enter suffix"]
+	},
+	phone: {
+		type: String,
+		trim: true,
+		"default": "",
+		validate: [validateLocalStrategyProperty, "Please fill in your phone number"]
+	},
+	location: {
+		country: {
+			type: String,
+			trim: true,
+			"default": "Canada",
+			validate: [validateLocalStrategyProperty, "Please fill in your country"]
+		},
+		address: {
+			type: String,
+			trim: true,
+			"default": "",
+			validate: [validateLocalStrategyProperty, "Enter street address"]
+		},
+		address2: {
+			type: String,
+			trim: true,
+			"default": "",
+			validate: [validateLocalStrategyProperty, "Enter apt, suite or unit"]
+		},
+		city: {
+			type: String,
+			trim: true,
+			"default": "",
+			validate: [validateLocalStrategyProperty, "Please fill in your city"]
+		},
+		province: {
+			type: String,
+			trim: true,
+			"default": "",
+			validate: [validateLocalStrategyProperty, "Please fill in your province"]
+		},
+		zip: {
+			type: String,
+			trim: true,
+			"default": "",
+			validate: [validateLocalStrategyProperty, "Enter zip"]
+		}
+	},
 	email: {
 		type: String,
 		trim: true,

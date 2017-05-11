@@ -22,7 +22,7 @@ module.exports = {
 		collection: User,
 
 		hashedIdentity: true,
-		modelPropFilter: "code username fullName email avatar passwordLess provider profile socialLinks roles apiKey lastLogin locale status createdAt updatedAt"
+		modelPropFilter: "code username fullName firstName lastName middleInitial suffix phone location email avatar passwordLess provider profile socialLinks roles apiKey lastLogin locale status createdAt updatedAt"
 	},
 
 	actions: {
@@ -49,8 +49,30 @@ module.exports = {
 					.then(doc => this.checkModelOwner(doc, "id", ctx.params.$user))
 					.then(doc => {
 
-										if (ctx.params.fullName != null)
-											doc.fullName = ctx.params.fullName;
+						if (ctx.params.firstName != null)
+							doc.firstName = ctx.params.firstName;
+						if (ctx.params.lastName != null)
+							doc.lastName = ctx.params.lastName;
+						if (ctx.params.middleInitial != null)
+							doc.middleInitial = ctx.params.middleInitial;
+						if (ctx.params.suffix != null)
+							doc.suffix = ctx.params.suffix;
+						if (ctx.params.phone != null)
+							doc.phone = ctx.params.phone;
+
+						if (ctx.params.location.country != null)
+							doc.location.country = ctx.params.location.country;
+						if (ctx.params.location.address != null)
+							doc.location.address = ctx.params.location.address;
+						if (ctx.params.location.address2 != null)
+							doc.location.address2 = ctx.params.location.address2;
+						if (ctx.params.location.city != null)
+							doc.location.city = ctx.params.location.city;
+						if (ctx.params.location.province != null)
+							doc.location.province = ctx.params.location.province;
+						if (ctx.params.location.zip != null)
+							doc.location.zip = ctx.params.location.zip;
+
 
 						return doc.save();
 					})
@@ -67,85 +89,7 @@ module.exports = {
 						return json;
 					});
 			}
-		},
-		// update: {
-		// 	defaultMethod: "put",
-		// 	needModel: true,
-		// 	permission: C.PERM_OWNER,
-		// 	handler(ctx) {
-		// 		return this.Promise.resolve(ctx)
-		// 			.then(ctx => this.resolveID(ctx))
-		// 			.then(modelID => this.checkModel(modelID, "app:PostNotFound"))
-		// 			.then(modelID => this.collection.findById(modelID).exec())
-		// 			.then(doc => this.checkModelOwner(doc, "id", ctx.params.$user))
-		// 			.then(doc => {
-		// 				if (ctx.params.fullName != null)
-		// 					doc.fullName = ctx.params.fullName;
-        //
-		// 				if (ctx.params.province != null)
-		// 					doc.province = ctx.params.province;
-        //
-		// 				return doc.save();
-		// 			})
-		// 			.then(doc => this.toJSON(doc))
-		// 			.then(json => this.populateModels(ctx, json))
-		// 			.then((json) => {
-		// 				this.notifyModelChanges(ctx, "updated", json, ctx.params.$user);
-        //
-		// 				// Clear cached values
-		// 				this.clearCache();
-        //
-		// 				return json;
-		// 			});
-		// 	}
-		// },
-
-		// update: {
-		// 	defaultMethod: "put",
-		// 	needModel: true,
-		// 	handler(ctx) {
-		// 		return this.Promise.resolve(ctx)
-		// 			.then(ctx => this.resolveID(ctx))
-		// 			.then(modelID => this.checkModel(modelID, "app:DeviceNotFound"))
-		// 			.then(modelID => this.collection.findById(modelID).exec())
-		// 			.then(doc => {
-         //                //
-		// 				if (ctx.params.fullName != null)
-		// 					doc.fullName = ctx.params.fullName;
-        //
-		// 				if (ctx.params.province != null)
-		// 					doc.province = ctx.params.province;
-         //                //
-		// 				// if (ctx.params.name != null)
-		// 				// 	doc.name = ctx.params.name;
-         //                //
-		// 				// if (ctx.params.description != null)
-		// 				// 	doc.description = ctx.params.description;
-         //                //
-		// 				// if (ctx.params.status != null)
-		// 				// 	doc.status = ctx.params.status;
-		// 				console.log('doc', doc);
-        //
-		// 				return doc.save();
-		// 			})
-		// 			.then(doc => this.toJSON(doc))
-		// 			.then(json => this.populateModels(ctx, json))
-		// 			.then((json) => {
-		// 				this.notifyModelChanges(ctx, "updated", json, ctx.params.$user);
-        //
-		// 				// Clear cached values
-		// 				this.clearCache();
-        //
-		// 				return json;
-		// 			});
-		// 	}
-		// },
-		// update: {
-		// 	defaultMethod: "post",
-		// 	handler(ctx) {
-		// 		// TODO: save profile changes
-		// 	}
-		// }
+		}
 	},
 
 	methods: {
@@ -161,6 +105,12 @@ module.exports = {
 			type Profile {
 				code: String!
 				fullName: String
+				firstName: String
+				lastName: String
+				middleInitial: String
+				suffix: String
+				phone: String
+				location: Location
 				email: String
 				username: String
 				passwordLess: Boolean
@@ -178,6 +128,15 @@ module.exports = {
 				status: Boolean
 			}
 
+			type Location {
+				country: String
+				address: String
+				address2: String
+				city: String
+				province: String
+				zip: String
+			}
+			
 			type SocialProfile {
 				name: String
 				gender: String
