@@ -5,7 +5,7 @@
 		.flex.align-center.justify-space-around
 			.left(v-if="enabledNew")
 				button.button.is-primary(@click="newModel")
-					i.icon.fa.fa-plus 
+					i.icon.fa.fa-plus
 					| {{ schema.resources.addCaption || _("Add") }}
 			.right {{ _("SelectedOfAll", { selected: selected.length, all: rows.length } ) }}
 
@@ -15,18 +15,18 @@
 			vue-form-generator(:schema='schema.form', :model='model', :options='options', :multiple="selected.length > 1", ref="form", :is-new-model="isNewModel")
 
 			.errors.text-center
-				div.alert.alert-danger(v-for="(item, index) in validationErrors", :key="index") {{ item.field.label }}: 
+				div.alert.alert-danger(v-for="(item, index) in validationErrors", :key="index") {{ item.field.label }}:
 					strong {{ item.error }}
 
 			.buttons.flex.justify-space-around
 				button.button.primary(@click="saveModel", :disabled="!enabledSave")
-					i.icon.fa.fa-save 
+					i.icon.fa.fa-save
 					| {{ schema.resources.saveCaption || _("Save") }}
 				button.button.outline(@click="cloneModel", :disabled="!enabledClone")
-					i.icon.fa.fa-copy 
+					i.icon.fa.fa-copy
 					| {{ schema.resources.cloneCaption || _("Clone") }}
 				button.button.danger(@click="deleteModel", :disabled="!enabledDelete")
-					i.icon.fa.fa-trash 
+					i.icon.fa.fa-trash
 					| {{ schema.resources.deleteCaption || _("Delete") }}
 
 </template>
@@ -77,12 +77,12 @@
 			enabledDelete() { return (this.model && !this.isNewModel && this.options.enableDeleteButton !== false); },
 
 			validationErrors() {
-				if (this.$refs.form && this.$refs.form.errors) 
+				if (this.$refs.form && this.$refs.form.errors)
 					return this.$refs.form.errors;
 
 				return [];
 			}
-		},	
+		},
 
 		watch: {
 			selected() {
@@ -104,7 +104,7 @@
 
 			select(event, row, add) {
 				this.isNewModel = false;
-				
+
 				if (this.schema.table.multiSelect === true && (add || (event && event.ctrlKey))) {
 					this.$parent.selectRow(row, true);
 				} else {
@@ -122,10 +122,10 @@
 					// Select all
 					this.$parent.selectRow(filteredRows, false);
 				} else {
-					// Unselect all 
+					// Unselect all
 					this.$parent.clearSelection();
 				}
-			},	
+			},
 
 			generateModel() {
 				if (this.selected.length == 1) {
@@ -152,7 +152,7 @@
 					if (el)
 						el.focus();
 				});
-			},	
+			},
 
 			cloneModel() {
 				console.log("Clone model...");
@@ -203,14 +203,14 @@
 					});
 				}
 
-				return res;	
+				return res;
 			}
 
 		},
 
 		created() {
-		}	
-				
+		}
+
 	};
 
 </script>

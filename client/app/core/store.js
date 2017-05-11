@@ -3,7 +3,7 @@ import Vuex from "vuex";
 
 import session from "../modules/session/store";
 import devices from "../modules/devices/store";
-// import crafts from "../modules/crafts/store";
+import crafts from "../modules/crafts/store";
 import posts from "../modules/posts/store";
 import counter from "../modules/counter/store";
 import profile from "../modules/profile/store";
@@ -15,7 +15,7 @@ export default new Vuex.Store({
 		session,
 		counter,
 		devices,
-		// crafts,
+		crafts,
 		posts,
 		profile
 	}

@@ -1,9 +1,6 @@
 <template lang="pug">
 	div
-		admin-page(:schema="schema", :rows="crafts")
-
-		pre(v-html="this.$options.filters.prettyJSON(crafts)")
-
+		admin-page(:schema="schema", :selected="selected", :rows="crafts")
 </template>
 
 <script>
@@ -11,9 +8,8 @@
 	import AdminPage from "../../core/DefaultAdminPage.vue";
 	import schema from "./schema";
 	import toast from "../../core/toastr";
-	import axios from "axios";
 
-//	import { mapGetters, mapActions } from "vuex";
+	import { mapGetters, mapActions } from "vuex";
 
 	export default {
 
@@ -21,17 +17,16 @@
 			AdminPage: AdminPage
 		},
 
-//		computed: mapGetters("crafts", [
-//			"crafts",
-//			"selected"
-//		]),
+		computed: mapGetters("crafts", [
+			"crafts",
+			"selected"
+		]),
 
 		/**
 		 * Set page schema as data property
 		 */
 		data() {
 			return {
-				crafts: ['test'],
 				schema
 			};
 		},
@@ -73,47 +68,26 @@
 			}
 		},
 
-//		methods: {
-//			...mapActions("crafts", [
-//				"downloadRows",
-//				"created",
-//				"updated",
-//				"removed",
-//				"selectRow",
-//				"clearSelection",
-//				"saveRow",
-//				"updateRow",
-//				"removeRow"
-//			])
-//		},
+		methods: {
+			...mapActions("crafts", [
+				"downloadRows",
+				"created",
+				"updated",
+				"removed",
+				"selectRow",
+				"clearSelection",
+				"saveRow",
+				"updateRow",
+				"removeRow"
+			])
+		},
 
 		/**
 		 * Call if the component is created
 		 */
 		created() {
 			// Download rows for the page
-			//this.downloadRows();
-//		axios.get(`http://jsonplaceholder.typicode.com/posts`)
-//			.then(response => {
-//			// JSON responses are automatically parsed.
-//			this.posts = response.data
-//	})
-//	.catch(e => {
-//			this.errors.push(e)
-//	})
-
-		axios.get('/api/crafts')
-			.then((response) => {
-					if (response.status == 200 && response.data){
-				//todo: wtf
-				this.crafts = response.data.data;
-				}
-					else{
-						console.error("Request error!", res.error);
-			}
-	}).catch((response) => {
-			console.error("Request error!", response.statusText);
-	});
+			this.downloadRows();
 		}
 	};
 </script>
