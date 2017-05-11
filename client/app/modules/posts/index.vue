@@ -295,8 +295,8 @@
 
 <style lang="scss" scoped>
 
-	@import "../../../scss/themes/blurred/variables";
-	@import "../../../scss/common/mixins";
+	@import "../../../scss/themes/blurred/_variables.scss";
+	@import "../../../scss/common/_mixins.scss";
 
 	.container {
 	}

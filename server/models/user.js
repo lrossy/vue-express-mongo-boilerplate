@@ -27,6 +27,7 @@ let schemaOptions = {
 };
 
 let validateLocalStrategyProperty = function(property) {
+	console.log('this.updated',this.updated);
 	return (this.provider !== "local" && !this.updated) || property.length;
 };
 
@@ -38,14 +39,14 @@ let UserSchema = new Schema({
 	fullName: {
 		type: String,
 		trim: true,
-		"default": "",
-		validate: [validateLocalStrategyProperty, "Please fill in your full name"]
+		"default": ""
 	},
 	firstName: {
 		type: String,
 		trim: true,
 		"default": "",
 		validate: [validateLocalStrategyProperty, "Please fill in your first name"]
+
 	},
 	lastName: {
 		type: String,
@@ -56,59 +57,48 @@ let UserSchema = new Schema({
 	middleInitial: {
 		type: String,
 		trim: true,
-		"default": "",
-		validate: [validateLocalStrategyProperty, "Please fill in your middle initial"]
+		"default": ""
 	},
 suffix: {
 		type: String,
 		trim: true,
-		"default": "",
-		validate: [validateLocalStrategyProperty, "Please enter suffix"]
+		"default": ""
 	},
 	phone: {
 		type: String,
 		trim: true,
-		"default": "",
-		validate: [validateLocalStrategyProperty, "Please fill in your phone number"]
+		"default": ""
 	},
 	location: {
 		country: {
 			type: String,
 			trim: true,
-			"default": "Canada",
-			validate: [validateLocalStrategyProperty, "Please fill in your country"]
+			"default": ""
 		},
 		address: {
 			type: String,
 			trim: true,
-			"default": "",
-			validate: [validateLocalStrategyProperty, "Enter street address"]
+			"default": ""
 		},
 		address2: {
 			type: String,
 			trim: true,
-			"default": "",
-			validate: [validateLocalStrategyProperty, "Enter apt, suite or unit"]
+			"default": ""
 		},
 		city: {
 			type: String,
 			trim: true,
-			"default": "",
-			validate: [validateLocalStrategyProperty, "Please fill in your city"]
+			"default": ""
 		},
 		province: {
 			type: String,
 			trim: true,
-			"default": "",
-			validate: [validateLocalStrategyProperty, "Please fill in your province"]
-		},
-		zip: {
-			type: String,
-			trim: true,
-			"default": "",
-			validate: [validateLocalStrategyProperty, "Enter zip"]
+			"default": ""
 		}
+
 	},
+
+
 	email: {
 		type: String,
 		trim: true,

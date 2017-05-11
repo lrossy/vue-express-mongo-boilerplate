@@ -2,7 +2,7 @@
 	.user-box(v-if="me").dropdown
 
 		.user-info.dropdown-toggle(type='button', data-toggle='dropdown')
-			span.username {{ me.fullName }}
+			span.username {{ me.firstName + ' ' + me.lastName }}
 			span.caret
 		user-dropdown(:visible="expandedUserMenu")
 

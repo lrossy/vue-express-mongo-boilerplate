@@ -20,8 +20,12 @@ if socialAuth
 				input(type="hidden", name="_csrf" value=_csrf)
 				.row
 						.col-sm-12
-							label(for='name')= t("NameSC")
-							input(type='text', name='name', id='name', placeholder=t("YourName"), required)
+							label(for='firstName')= t("FirstName")
+							input(type='text', name='firstName', id='firstName', placeholder=t("FirstName"), required)
+							.hint
+						.col-sm-12
+							label(for='lastName')= t("LastName")
+							input(type='text', name='lastName', id='lastName', placeholder=t("LastName"), required)
 							.hint
 						.col-sm-12
 							label(for='email')= t("EmailSC")
@@ -40,7 +44,7 @@ if socialAuth
 						.col-sm-12
 							label(for='password')= t("PasswordSC")
 							input(type='password', name='password', id='password', placeholder=t("Password"))
-						.flash
+						.col-sm-12
 							if messages.error
 								.alert.alert-danger
 									for error in messages.error

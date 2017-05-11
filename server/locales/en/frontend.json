@@ -46,6 +46,8 @@
 	"ChangePassword": "Change Password",
 
 	"NameCannotBeEmpty": "Name cannot be empty!",
+	"FirstNameCannotBeEmpty": "First Name cannot be empty!",
+	"LastNameCannotBeEmpty": "Last Name cannot be empty!",
 	"EmailCannotBeEmpty": "Email cannot be empty!",
 	"EmailIsNotValid": "Email is not valid!",
 	"PasswordCannotBeEmpty": "Password cannot be empty!",
@@ -74,7 +76,7 @@
 	"InvalidPassword": "Invalid password",
 	"UserDisabledOrDeleted": "Deleted or disabled user account!",
 	"InvalidOAuthProvider": "Invalid OAuth provider!",
-	
+
 	"UnknowUsernameOrEmail": "Unknow username or e-mail",
 
 	"mailSubjectWelcome": "✔ Welcome to {{app.title}}!",
@@ -85,5 +87,5 @@
 	"emailSentWithMagicLink": "An email has been sent to {{email}} with magic link. Please check your spam folder if it does not arrive.",
 	"emailSentVerifyLink": "Please check your email to verify your account. Thanks for signing up!",
 	"emailSentPasswordResetLink": "An email has been sent to {{email}} with further instructions."
-	
+
 }

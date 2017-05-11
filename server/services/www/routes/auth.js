@@ -20,7 +20,7 @@ let Response 	= require("../../../core/response");
  * which defined in `redirect` parameter.
  *
  * If req.flash contains errors, we send back error messages too.
- * 
+ *
  * @param  {Object} req      request object
  * @param  {Object} res      response object
  * @param  {String} redirect redirect site URL.
@@ -71,7 +71,7 @@ module.exports = function(app, db) {
 
 		if (req.body.password) {
 			// Login with password
-			passport.authenticate("local", function(err, user, info) { 
+			passport.authenticate("local", function(err, user, info) {
 				if (!user) {
 					req.flash("error", { msg: info.message });
 					return respond(req, res, "/login");
@@ -91,7 +91,7 @@ module.exports = function(app, db) {
 						req.user.password = undefined;
 						req.user.salt = undefined;
 
-						respond(req, res, "/");
+						respond(req, res, "/#/crafts");
 					});
 
 				});
@@ -111,8 +111,8 @@ module.exports = function(app, db) {
 				function getUser(token, done) {
 					let username = req.body.username;
 					User.findOne({
-						$or: [ 
-							{ "username": username}, 
+						$or: [
+							{ "username": username},
 							{ "email": username}
 						]
 					}, function(err, user) {
@@ -126,13 +126,13 @@ module.exports = function(app, db) {
 							req.flash("error", { msg: req.t("UserDisabledOrDeleted")});
 							return done(`User '${username} is disabled or deleted!`);
 						}
-						
+
 
 						user.passwordLessToken = token;
 						//user.passwordLessTokenExpires = Date.now() + 3600000; // expire in 1 hour
 						user.save(function(err) {
 							done(err, token, user);
-						});					
+						});
 					});
 				},
 
@@ -198,7 +198,7 @@ module.exports = function(app, db) {
 		failureRedirect: "/login"
 	}), function(req, res) {
 		res.redirect("/");
-	});	
+	});
 
 	/**
 	 * Twitter authentication routes
@@ -209,7 +209,7 @@ module.exports = function(app, db) {
 		failureRedirect: "/login"
 	}), function(req, res) {
 		res.redirect("/");
-	});	
+	});
 
 	/**
 	 * Github authentication routes
@@ -222,7 +222,7 @@ module.exports = function(app, db) {
 		failureRedirect: "/login"
 	}), function(req, res) {
 		res.redirect("/");
-	});	
+	});
 
 	// Add router to app
 	app.use("/auth", authRouter);

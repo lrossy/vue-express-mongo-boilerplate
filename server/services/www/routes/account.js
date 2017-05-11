@@ -80,7 +80,8 @@ module.exports = function(app, db) {
 		if (config.features.disableSignUp === true)
 			return res.redirect("/");
 
-		req.assert("name", req.t("NameCannotBeEmpty")).notEmpty();
+		req.assert("lastName", req.t("LastNameCannotBeEmpty")).notEmpty();
+		req.assert("firstName", req.t("FirstNameCannotBeEmpty")).notEmpty();
 		req.assert("email", req.t("EmailCannotBeEmpty")).notEmpty();
 		req.assert("email", req.t("EmailIsNotValid")).isEmail();
 		req.sanitize("email").normalizeEmail({ remove_dots: false });
@@ -129,7 +130,8 @@ module.exports = function(app, db) {
 			function createUser(token, password, done) {
 
 				let user = new User({
-					fullName: req.body.name,
+					firstName: req.body.firstName,
+					lastName: req.body.lastName,
 					email: req.body.email,
 					username: req.body.username,
 					password: password,
@@ -147,7 +149,7 @@ module.exports = function(app, db) {
 
 				user.save(function(err, user) {
 					if (err && err.code === 11000) {
-						let field = err.message.split(".$")[1];
+						let field = err.message.split(".$")[0];
 						field = field.split(" dup key")[0];
 						field = field.substring(0, field.lastIndexOf("_"));
 						if (field == "email")

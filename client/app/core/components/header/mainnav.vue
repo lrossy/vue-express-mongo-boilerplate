@@ -8,20 +8,20 @@
 					.bar__module.menu
 						ul.menu-horizontal.text-left
 							router-link(tag="li", to="/")
-								a(:title="_('Home')")
-									span {{ "Home" | i18n }}
-							router-link(tag="li", to="/counter")
-								a(:title="_('Demo')")
-									span {{ "Demo" | i18n }}
-							router-link(tag="li", to="/devices")
-								a(:title="_('Devices')")
-									span {{ "Devices" | i18n }}
+								a(:title="_('Lookup Service')")
+									span {{ "Lookup Service" | i18n }}
+							<!--router-link(tag="li", to="/counter")-->
+								<!--a(:title="_('Demo')")-->
+									<!--span {{ "Demo" | i18n }}-->
+							<!--router-link(tag="li", to="/devices")-->
+								<!--a(:title="_('Devices')")-->
+									<!--span {{ "Devices" | i18n }}-->
 							router-link(tag="li", to="/crafts")
 								a(:title="Crafts")
-									span {{ "Crafts" | i18n }}
+									span {{ "Your Crafts" | i18n }}
 							router-link(tag="li", to="/posts")
 								a(:title="_('Posts')")
-									span {{ "Posts" | i18n }}
+									span {{ "Messages" | i18n }}
 							li
 								UserBox
 								<!--a(href="/logout", :title="_('Logout')")-->

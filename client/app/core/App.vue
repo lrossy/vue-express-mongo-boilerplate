@@ -7,6 +7,7 @@
 
 		section.app-main(:class="{ miniSidebar: miniSidebar }")
 			router-view(keep-alive)
+		page-footer
 </template>
 
 <script>
@@ -15,6 +16,7 @@
 	import PageHeader from "./components/header/index";
 	import PageMenu from "./components/menu/index";
 	import Sidebar from "./components/sidebar/index";
+	import PageFooter from "./components/footer/index";
 
 	import Service from "./service";
 
@@ -33,7 +35,8 @@
 		components: {
 			PageHeader,
 			PageMenu,
-			Sidebar
+			Sidebar,
+			PageFooter
 		},
 
 		/**
