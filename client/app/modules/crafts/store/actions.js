@@ -1,6 +1,6 @@
 import Vue from "vue";
 import toastr from "../../../core/toastr";
-import { LOAD, ADD, SELECT, CLEAR_SELECT, UPDATE, REMOVE } from "./types";
+import { LOAD, ADD, SELECT, CLEAR_SELECT, UPDATE, REMOVE, FETCHING, NO_MORE_ITEMS, LOAD_MORE } from "./types";
 import axios from "axios";
 
 export const NAMESPACE = "/api/crafts";
@@ -13,9 +13,24 @@ export const clearSelection = ({ commit }) => {
 	commit(CLEAR_SELECT);
 };
 
+export const getRows = function ({commit, state}, loadMore) {
+	commit(FETCHING, true);
+	return service.rest("list", { filter: state.viewMode, sort: state.sort, limit: 10, offset: state.offset }).then((data) => {
+		if (data.length == 0)
+			commit(NO_MORE_ITEMS);
+		else
+			commit(loadMore ? LOAD_MORE : LOAD, data);
+	}).catch((err) => {
+		toastr.error(err.message);
+	}).then(() => {
+		commit(FETCHING, false);
+	});
+};
+
 export const downloadRows = ({ commit }) => {
 	axios.get(NAMESPACE).then((response) => {
 		let res = response.data;
+		console.log('res',res);
 		if (res.status == 200 && res.data)
 			commit(LOAD, res.data);
 		else

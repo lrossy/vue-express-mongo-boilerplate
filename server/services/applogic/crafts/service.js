@@ -31,9 +31,7 @@ module.exports = {
 
 	actions: {
 		list: {
-			cache: {
-				keys: [ "limit", "offset", "sort", "filter", "user_id" ]
-			},
+			cache: false,
 			defaultMethod: "get",
 			handler(ctx) {
 				let filter = {};
@@ -50,6 +48,7 @@ module.exports = {
 				// else if (ctx.params.author != null)
 				// 	filter.user_id = ctx.params.author;
 
+				console.log('filter',filter)
 				let query = this.collection.find(filter);
 
 				return this.applyFilters(query, ctx).exec()
@@ -76,7 +75,7 @@ module.exports = {
 		},
 
 		model: {
-			cache: true,
+			cache: false,
 			publish: false,
 			handler(ctx) {
 				return this.resolveModel(ctx);
