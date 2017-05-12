@@ -48,7 +48,7 @@ module.exports = {
 				// else if (ctx.params.author != null)
 				// 	filter.user_id = ctx.params.author;
 
-				console.log('filter',filter)
+				// console.log('filter',filter)
 				let query = this.collection.find(filter);
 
 				return this.applyFilters(query, ctx).exec()
@@ -157,6 +157,8 @@ module.exports = {
 				.then((json) => {
 					this.notifyModelChanges(ctx, "updated", json, ctx.params.$user);
 
+					// console.log('ctx',ctx);
+					console.log('ctx.params',ctx.params);
 					// Clear cached values
 					this.clearCache();
 

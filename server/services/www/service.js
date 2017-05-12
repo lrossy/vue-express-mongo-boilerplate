@@ -56,7 +56,7 @@ module.exports = {
 		 *
 		 * If data present and no error, we will send status 200 with JSON data
 		 * If no data but has error, we will send HTTP error code and message
-		 * 
+		 *
 		 * @param  {Object} res        	ExpressJS res object
 		 * @param  {json} 	data       	JSON response data
 		 * @param  {Object} err        	Error object
@@ -72,10 +72,10 @@ module.exports = {
 					type: err.type,
 					message: err.message
 				};
-				if (err.params) 
+				if (err.params)
 					response.error.params = err.params;
 
-				if (err.msgCode) 
+				if (err.msgCode)
 					response.error.message = req.t(err.msgCode);
 
 				response.data = data;
@@ -91,12 +91,12 @@ module.exports = {
 
 		/**
 		 * Check request has enough permission to call the action
-		 * 
+		 *
 		 * @param  {Object} user       	User of request
 		 * @param  {String} permission  Permission of action (optional, default: PERM_LOGGEDIN)
 		 * @param  {String} role  		Role of action (optional, default: ROLE_USER)
 		 * @returns {Promise}
-		 */		
+		 */
 		checkActionPermission(user, permission = C.PERM_LOGGEDIN, role = C.ROLE_USER) {
 			if (permission == C.PERM_PUBLIC)
 				return this.Promise.resolve();
@@ -121,7 +121,7 @@ module.exports = {
 
 		/**
 		 * Register actions as REST routes
-		 * 
+		 *
 		 * @param {Object} schema 	Schema of routes
 		 */
 		registerRESTRoutes(schema) {
@@ -137,7 +137,7 @@ module.exports = {
 
 					if (route.route)
 						route.route.stack.forEach(removeErrorHandlers);
-				};			
+				};
 				this.app._router.stack.forEach(removeErrorHandlers);
 
 				let router = express.Router();
@@ -146,11 +146,12 @@ module.exports = {
 				router.use(auth.tryAuthenticateWithApiKey);
 
 				schema.rest.routes.forEach(route => {
-					
+
 					// Make the request handler for action
 					let handler = (req, res) => {
 						let requestID = tokgen();
 						let user = req.user;
+						
 						let params = _.defaults({}, req.query, req.params, req.body);
 						params.$user = _.pick(user, ["id", "code", "avatar", "roles", "username", "fullName"]);
 						this.logger.debug(`Request via REST '${route.path}' ${requestID}`, params);
@@ -201,7 +202,7 @@ module.exports = {
 				// Register router to namespace
 				if (schema.version == null || schema.latestVersion) {
 					this.app.use("/api", router);
-				}		
+				}
 
 				// Add error handlers to the end
 				require("./routes/errors")(this.app);
@@ -210,7 +211,7 @@ module.exports = {
 
 		/**
 		 * Register actions as REST routes
-		 * 
+		 *
 		 * @param {Object} socket 	Socket of ws client
 		 */
 		registerSocketActions(socket) {
@@ -223,7 +224,7 @@ module.exports = {
 
 					let handler = (data, callback) => {
 						let requestID = tokgen();
-						
+
 						let params = Object.assign({}, data, {
 							$user: _.pick(user, ["id", "code", "avatar", "roles", "username", "fullName"])
 						});
@@ -264,8 +265,8 @@ module.exports = {
 							if (_.isFunction(callback))
 								callback(this.sendJSON(null, null, err));
 							ctx._metricFinish(err);
-						});		
-									
+						});
+
 					};
 
 					// Register as versioned action
@@ -276,7 +277,7 @@ module.exports = {
 					// Register action without version
 					if (schema.version == null || schema.latestVersion) {
 						socket.on(route.path, handler);
-					}		
+					}
 
 				});
 
@@ -295,7 +296,7 @@ module.exports = {
 
 			_.forIn(this.publishedSchemas, (publishSchema) => {
 				if (publishSchema.graphql !== false && _.isObject(publishSchema.graphql)) {
-					let graphQL = publishSchema.graphql; 
+					let graphQL = publishSchema.graphql;
 					graphQL.resolvers = graphQL.resolvers || {};
 
 					let processResolvers = (resolvers) => {
@@ -341,7 +342,7 @@ module.exports = {
 											ctx._metricFinish(err);
 											this.logger.error("Request error: ", err);
 											throw err;
-										});						
+										});
 
 								};
 
@@ -402,8 +403,8 @@ module.exports = {
 
 			try {
 				// Generate executable graphQL schema
-				let newSchema = graphqlTools.makeExecutableSchema({ 
-					typeDefs: [mergedSchema], 
+				let newSchema = graphqlTools.makeExecutableSchema({
+					typeDefs: [mergedSchema],
 					resolvers: mergeModuleResolvers({
 						Timestamp: {
 							__parseValue(value) {
@@ -415,7 +416,7 @@ module.exports = {
 							__parseLiteral(ast) {
 								if (ast.kind === Kind.INT)
 									return parseInt(ast.value, 10); // ast value is always in string format
-								
+
 								return null;
 							}
 						}
@@ -455,22 +456,22 @@ module.exports = {
 	created() {
 		this.publishedSchemas = {};
 		this.graphQLSchema = null;
-		
+
 		this.db	= require("../../core/mongo")();
 		let { server, app } = require("./express")(this.db, this);
 		this.server = server;
 		this.app = app;
 
-		//this.logger.info("Service created!");		
+		//this.logger.info("Service created!");
 	},
 
 	started() {
 		// this.logger.info("Service started!");
-		
+
 		this.server.listen(config.port, config.ip, () => {
 			require("../../libs/sysinfo")();
 			this.broker.emit("www.listen");
-		});	
+		});
 	},
 
 	stopped() {

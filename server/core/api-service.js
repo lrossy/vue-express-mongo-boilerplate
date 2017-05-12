@@ -332,7 +332,8 @@ class APIService extends Moleculer.Service {
 			})
 			.then(payload => {
 				// Send notify to other services
-				console.log('event',event);
+				// console.log('event',event);
+				// console.log('payload',payload);
 
 				this.broker.emit(event, payload);
 
