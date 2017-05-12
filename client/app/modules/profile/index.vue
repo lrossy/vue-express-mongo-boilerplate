@@ -5,7 +5,7 @@
 				.boxed.boxed--lg.boxed--border
 					.text-block.text-center
 						img.image--sm(alt='avatar', :src="profile.avatar")
-						span.h5 {{ profile.fullName }}
+						span.h5 {{ fullName }}
 						span {{ profile.roles[0] }}
 						span.label {{ profile.roles[0] }}
 					.text-block
@@ -83,11 +83,7 @@
 //		computed: mapGetters("profile", [
 //			"profile"
 //		]),
-		computed: {
-			...mapGetters("profile", [
-				"profile"
-			])
-	},
+
 		data(){
 			return {
 				submenu: 'profile',
@@ -182,6 +178,14 @@
 				}
 			}
 		},
+		computed: {
+			...mapGetters("profile", [
+				"profile"
+			]),
+		fullName: function () {
+			return this.firstName + ' ' + this.lastName
+		}
+	},
 	/**
 		* Socket handlers. Every property is an event handler
 		*/

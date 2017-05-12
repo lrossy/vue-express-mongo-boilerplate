@@ -2,18 +2,53 @@
 	.container
 		h3 Drone Lookup Service
 		.boxed.boxed--lg.bg--white.text-left
-			form.form--horizontal
+			form.form--horizontal(v-on:submit.prevent="onSubmit")
 				.col-sm-8
-					input(type='text', name='search', placeholder='Type drone registration number here')
+					input(type='text', v-model='searchTerm' name='search', placeholder='Type drone registration number here')
 				.col-sm-4
 					button.btn.btn--primary.type--uppercase(type='submit') Search
-
+		p The button above has been clicked {{ counter }} times.
 </template>
 
 <script>
+//	import { mapGetters, mapActions } from "vuex";
+import Service from "../../core/service";
+import toastr from "../../core/toastr";
+
+let service = new Service("crafts");
+
 	export default {
 
+		data(){
+			return {
+				counter: 0,
+				searchTerm: "test",
+				searchResults: []
+			}
+		},
+		methods: {
+			getRows: function () {
+//				alert(this.searchTerm)
+				return service.rest("find", { term: this.searchTerm }).then((data) => {
+						if (data.length == 0)
+							alert('no items');
+				else{
+					alert(data.length);
+					this.searchResults = data;
+				}
+			}).catch((err) => {
+					toastr.error(err.message);
+			}).then(() => {
 
+			});
+			},
+			onSubmit: function(e) {
+	//				alert('test');
+				this.counter++;
+				this.getRows();
+	//				this.newWorkorder.push(this.newWorkorder);
+			}
+	}
 	};
 
 </script>

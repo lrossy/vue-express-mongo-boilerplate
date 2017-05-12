@@ -73,7 +73,6 @@ module.exports = {
 				.then(json => this.populateModels(ctx, json));
 			}
 		},
-
 		model: {
 			cache: false,
 			publish: false,
@@ -190,7 +189,36 @@ module.exports = {
 					return json;
 				});
 			}
-		}
+		},
+
+		find: {
+			cache: true,
+			defaultMethod: "post",
+			handler(ctx) {
+				let filter = {};
+
+				// filter.user_id =ctx.params.$user.id;
+				//
+				// //check if admin
+				// if (ctx.params.$user.roles.indexOf(C.ROLE_ADMIN) !== -1){
+				// 	delete filter.user_id;
+				// }
+				// if (ctx.params.filter == "my"){
+				// 	filter.user_id =ctx.params.$user.id;
+				// }
+				// else if (ctx.params.author != null)
+				// 	filter.user_id = ctx.params.author;
+
+				// console.log('filter',filter)
+				// let query = this.collection.find(filter);
+				let query = this.collection.find({
+					"serial_number": ctx.params.term
+				});
+				return this.applyFilters(query, ctx).exec()
+					.then(docs => this.toJSON(docs))
+					.then(json => this.populateModels(ctx, json));
+			}
+		},
 
 	},
 
