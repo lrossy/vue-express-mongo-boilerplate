@@ -156,13 +156,13 @@ module.exports = {
 						params.$user = _.pick(user, ["id", "code", "avatar", "roles", "username", "fullName"]);
 						this.logger.debug(`Request via REST '${route.path}' ${requestID}`, params);
 
-						let ctx = new Context(this.broker, {
-							name: "request.rest"
+						const ctx = this.broker.createNewContext({ name: "request.rest" }, null, params, {
+							//timeout: 5 * 1000
 						});
+
 						ctx.generateID();
-						ctx.metrics = true;
 						ctx.requestID = requestID;
-						ctx._metricStart();
+						ctx._metricStart(ctx.metrics);
 
 						return this.Promise.resolve()
 						// Check permission
@@ -179,7 +179,7 @@ module.exports = {
 						.then((json) => {
 							res.append("Request-Id", requestID);
 							this.sendJSON(res, json);
-							ctx._metricFinish();
+							ctx._metricFinish(null, ctx.metrics);
 							return json;
 						})
 
@@ -187,7 +187,7 @@ module.exports = {
 						.catch((err) => {
 							this.logger.error("Request error: ", util.inspect(err, { depth: 0, colors: true }));
 							this.sendJSON(res, null, err, req);
-							ctx._metricFinish(err);
+							ctx._metricFinish(err, ctx.metrics);
 						});
 					};
 
@@ -231,13 +231,12 @@ module.exports = {
 
 						this.logger.debug(`Request via WS '${route.path}' ${requestID}`, params);
 
-						let ctx = new Context(this.broker, {
-							name: "request.ws"
+						const ctx = this.broker.createNewContext({ name: "request.ws" }, null, params, {
+							//timeout: 5 * 1000
 						});
 						ctx.generateID();
-						ctx.metrics = true;
 						ctx.requestID = requestID;
-						ctx._metricStart();
+						ctx._metricStart(ctx.metrics);
 
 						return this.Promise.resolve()
 						// Check permission
@@ -254,7 +253,7 @@ module.exports = {
 						.then(json => {
 							if (_.isFunction(callback))
 								callback(this.sendJSON(null, json));
-							ctx._metricFinish();
+							ctx._metricFinish(null, ctx.metrics);
 
 							return json;
 						})
@@ -264,8 +263,8 @@ module.exports = {
 							this.logger.error("Request error: ", err);
 							if (_.isFunction(callback))
 								callback(this.sendJSON(null, null, err));
-							ctx._metricFinish(err);
-						});
+							ctx._metricFinish(err, ctx.metrics);
+						});		
 
 					};
 
@@ -313,13 +312,12 @@ module.exports = {
 									params.$user = _.pick(user, ["id", "code", "avatar", "roles", "username", "fullName"]);
 									this.logger.debug(`Request via GraphQL '${actionName}' ${requestID}`, params);
 
-									let ctx = new Context(this.broker, {
-										name: "request.graphql"
+									const ctx = this.broker.createNewContext({ name: "request.graphql" }, null, params, {
+										//timeout: 5 * 1000
 									});
 									ctx.generateID();
-									ctx.metrics = true;
 									ctx.requestID = requestID;
-									ctx._metricStart();
+									ctx._metricStart(ctx.metrics);
 
 									return this.Promise.resolve()
 										// Check permission
@@ -333,13 +331,13 @@ module.exports = {
 										})
 
 										.then(json => {
-											ctx._metricFinish();
+											ctx._metricFinish(null, ctx.metrics);
 											return json;
 										})
 
 										// Response the error
 										.catch((err) => {
-											ctx._metricFinish(err);
+											ctx._metricFinish(err, ctx.metrics);
 											this.logger.error("Request error: ", err);
 											throw err;
 										});
