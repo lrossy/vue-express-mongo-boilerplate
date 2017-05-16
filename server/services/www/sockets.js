@@ -88,6 +88,37 @@ let self = {
 				socket.emit(event, payload);
 		});
 
+		self.broker.on("socket.emit.user", ({ username,event, payload }) => {
+			self.broker.logger.debug("Send WS broadcast message to '" + username + "':", payload);
+			let users = _.filter(self.userSockets,{'request.user.username':username});
+			// console.log('username',username);
+			// console.log('self.userSockets[0].request.user.username',self.userSockets[0].request.user.username);
+
+			_.map(self.userSockets,  function(c){
+				if(c.request.user.username === username){
+					let p = {
+						data: payload,
+						user: c.request.user
+					}
+					console.log('c', c.id);
+					let socket = self.IO.sockets.connected[c.id];
+					if (socket) {
+						console.log('emit',event,p);
+						socket.emit(event, p);
+					}
+					// c.emit(event, payload);
+				}
+			});
+
+			//console.log('self.userSockets',self.userSockets);
+			console.log('users',users);
+            //
+			// let socket = self.IO.sockets.connected[socketID];
+			// if (socket)
+			// 	socket.emit(event, payload);
+		});
+
+
 		self.broker.on("socket.emit.role", ({ role, event, payload }) => {
 			self.IO.emit(event, payload); // TODO only for role
 		});
@@ -197,6 +228,9 @@ let self = {
 				logger.debug(`WS client disconnected from namespace ${ns}!`);
 			});
 
+			/*
+			 1 -
+			 */
 			self.service.registerSocketActions(socket, io);
 		});
 

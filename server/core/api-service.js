@@ -338,11 +338,13 @@ class APIService extends Moleculer.Service {
 				this.broker.emit(event, payload);
 
 				// Send notification via socket
+				// Removed in favor of sending socket update in each module socket.js file.
 				this.broker.emit("socket.emit.role", {
 					role: this.settings.role,
 					event,
 					payload
 				});
+				console.log('old', event,	payload )
 			}).catch(err => this.logger.error("Unable to get user record!", err));
 	}
 

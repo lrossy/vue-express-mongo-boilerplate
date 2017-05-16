@@ -103,7 +103,21 @@ module.exports = {
 				.then(doc => this.toJSON(doc))
 				.then(json => this.populateModels(ctx, json))
 				.then(json => {
-					this.notifyModelChanges(ctx, "created", json, ctx.params.$user);
+					// console.log('ctx',ctx);
+					// console.log('ctx.socket',ctx.socket);
+					// this.broker.emit("socket.emit.client", {
+					// 	socketID,
+					// 	event: "crafts.created",
+					// 	json
+					// });
+
+
+					this.broker.emit("socket.emit.user", {
+						username: ctx.params.$user.username,
+						event: "crafts.created",
+						payload:json
+					});
+				// this.notifyModelChanges(ctx, "created", json, ctx.params.$user);
 
 					// Clear cached values
 					this.clearCache();
@@ -193,7 +207,7 @@ module.exports = {
 
 		find: {
 			cache: true,
-			defaultMethod: "post",
+			defaultMethod: "get",
 			handler(ctx) {
 				let filter = {};
 
@@ -218,13 +232,25 @@ module.exports = {
 					.then(docs => this.toJSON(docs))
 					.then(json => this.populateModels(ctx, json));
 			}
-		},
+		}
 
 	},
 
 	// Event listeners
 	events: {
 
+		// "crafts.created"(	ctx ) {
+		// 	// console.log('socketID',ctx);
+        //
+		// 	const payload = {
+        //
+		// 	};
+		// 	this.broker.emit("socket.emit.client", {
+		// 		socketID,
+		// 		event: "crafts.created",
+		// 		payload
+		// 	});
+		// }
 	},
 
 	// Service methods
@@ -254,7 +280,7 @@ module.exports = {
 		types: `
 			type Craft {
 				code: String!
-				user_id: Person!
+					user_id: Person!
 				registration_id: String
 				manufacturer: String
 				model: String
@@ -311,6 +337,9 @@ query getDevice($code: String!) {
     ...deviceFields
   }
 }
+
+
+query getDevice($code: String!) {craft(code: $code) {...deviceFields}}
 
 # Update an existing device
 mutation updateDevice($code: String!) {

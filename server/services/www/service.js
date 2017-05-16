@@ -151,7 +151,7 @@ module.exports = {
 					let handler = (req, res) => {
 						let requestID = tokgen();
 						let user = req.user;
-						
+
 						let params = _.defaults({}, req.query, req.params, req.body);
 						params.$user = _.pick(user, ["id", "code", "avatar", "roles", "username", "fullName"]);
 						this.logger.debug(`Request via REST '${route.path}' ${requestID}`, params);
