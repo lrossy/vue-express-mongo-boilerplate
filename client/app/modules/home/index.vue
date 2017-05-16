@@ -7,7 +7,24 @@
 					input(type='text', v-model='searchTerm' name='search', placeholder='Type drone registration number here')
 				.col-sm-4
 					button.btn.btn--primary.type--uppercase(type='submit') Search
-		p The button above has been clicked {{ counter }} times.
+		.col-sm-12(v-if="searched")
+			a.block(v-if="searchResults.length > 0")
+				.feature.feature-1.boxed.boxed--border
+					.col-sm-10
+						h6.type--uppercase.color--primary {{ searchResults[0].manufacturer }} - {{ searchResults[0].model }}
+						h5 Class: {{ searchResults[0].class }}
+						p
+							| num_engines: {{searchResults[0].num_engines}}
+						p
+							|	engine_type: {{searchResults[0].engine_type}}
+					.col-sm-2
+						button.btn.btn--secondary.type--uppercase(type='submit') Contact User
+			a.block(v-else)
+				p.lead
+					span No results found
+
+
+
 </template>
 
 <script>
@@ -23,19 +40,23 @@ let service = new Service("crafts");
 			return {
 				counter: 0,
 				searchTerm: "test",
-				searchResults: []
+				searchResults: [],
+				searched: false
 			}
 		},
 		methods: {
 			getRows: function () {
 //				alert(this.searchTerm)
 				return service.rest("find", { term: this.searchTerm }).then((data) => {
-						if (data.length == 0)
-							alert('no items');
-				else{
-					alert(data.length);
-					this.searchResults = data;
-				}
+						if (data.length == 0){
+							this.searched = true;
+							this.searchResults = [];
+						}
+						else{
+							//alert(data.length);
+							this.searched = true;
+							this.searchResults = data;
+						}
 			}).catch((err) => {
 					toastr.error(err.message);
 			}).then(() => {

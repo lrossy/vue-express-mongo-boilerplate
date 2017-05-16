@@ -98,13 +98,9 @@ let self = {
 
 			_.map(self.userSockets,  function(c){
 				if(c.request.user.username === username){
-					let p = {
-						data: payload,
-						user: c.request.user
-					};
 					let socket = self.IO.sockets.connected[c.id];
 					if (socket) {
-						socket.emit(event, p);
+						socket.emit(event, payload);
 					}
 				}
 			});
