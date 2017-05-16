@@ -103,21 +103,8 @@ module.exports = {
 				.then(doc => this.toJSON(doc))
 				.then(json => this.populateModels(ctx, json))
 				.then(json => {
-					// console.log('ctx',ctx);
-					// console.log('ctx.socket',ctx.socket);
-					// this.broker.emit("socket.emit.client", {
-					// 	socketID,
-					// 	event: "crafts.created",
-					// 	json
-					// });
 
-
-					this.broker.emit("socket.emit.user", {
-						username: ctx.params.$user.username,
-						event: "crafts.created",
-						payload:json
-					});
-				// this.notifyModelChanges(ctx, "created", json, ctx.params.$user);
+				this.notifyModelChanges(ctx, "created", json, ctx.params.$user);
 
 					// Clear cached values
 					this.clearCache();

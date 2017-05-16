@@ -305,10 +305,11 @@ class APIService extends Moleculer.Service {
 	 * @param {any} type	Type of changes (created, updated, deleted...etc)
 	 * @param {any} data	JSON payload
 	 * @param {any} user	User who made changes
+	 * @param {boolean} privateMsg	Send to the specific user
 	 *
 	 * @memberOf Service
 	 */
-	notifyModelChanges(ctx, type, data, user) {
+	notifyModelChanges(ctx, type, data, user, privateMsg) {
 		const event = this.name + "." + type;
 
 		const payload = {
@@ -339,12 +340,22 @@ class APIService extends Moleculer.Service {
 
 				// Send notification via socket
 				// Removed in favor of sending socket update in each module socket.js file.
-				this.broker.emit("socket.emit.role", {
-					role: this.settings.role,
-					event,
-					payload
-				});
-				console.log('old', event,	payload )
+				if(!privateMsg){
+
+					this.broker.emit("socket.emit.user", {
+						username: user.username,
+						event: event,
+						payload: payload
+					});
+				}
+				else{
+					this.broker.emit("socket.emit.role", {
+						role: this.settings.role,
+						event,
+						payload
+					});
+				}
+				// console.log('old', event,	payload )
 			}).catch(err => this.logger.error("Unable to get user record!", err));
 	}
 
