@@ -202,7 +202,8 @@
 				*/
 			updated(res)
 			{
-				this.updated(res.data);
+//				alert(JSON.stringify(res.data.data));
+				this.updated(res.data.data);
 				toast.success(this._("DeviceNameUpdated", res), this._("DeviceUpdated"));
 			}
 		}

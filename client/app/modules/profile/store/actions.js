@@ -21,7 +21,7 @@ export const updateProfile = function(store, model) {
 	service.rest("update", model).then((data) => {
 		updated(store, data);
 	}).catch((err) => {
-		toastr.error(err.message);
+		toastr.error('here' + err.message);
 	});
 };
 export const updated = function({ commit }, model) {
