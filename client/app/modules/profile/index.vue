@@ -183,7 +183,8 @@
 				"profile"
 			]),
 		fullName: function () {
-			return this.firstName + ' ' + this.lastName
+			return this.profile.firstName + ' ' + this.profile.lastName;
+			//this.firstName + ' ' + this.lastName
 		}
 	},
 	/**

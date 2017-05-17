@@ -14,6 +14,7 @@ module.exports = {
 
 	table: {
 		multiSelect: true,
+		paginated: true,
 		columns: [
 			{
 				title: _("ID"),

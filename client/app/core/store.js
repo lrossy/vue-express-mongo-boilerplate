@@ -5,6 +5,7 @@ import session from "../modules/session/store";
 import devices from "../modules/devices/store";
 import crafts from "../modules/crafts/store";
 import posts from "../modules/posts/store";
+import messages from "../modules/messages/store";
 import counter from "../modules/counter/store";
 import profile from "../modules/profile/store";
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
 		devices,
 		crafts,
 		posts,
+		messages,
 		profile
 	}
 });
