@@ -1,65 +1,52 @@
-<template lang="pug">
-	.container
-		h2.title {{ _('Posts') }}
-
-		.header.flex.row.justify-space-between
-			.group.sort
-				a.link(@click="changeSort('-votes')", :class="{ active: sort == '-votes' }") {{ _("Hot") }}
-				a.link(@click="changeSort('-views')", :class="{ active: sort == '-views' }") {{ _("MostViewed") }}
-				a.link(@click="changeSort('-createdAt')", :class="{ active: sort == '-createdAt' }") {{ _("New") }}
-
-			button.button.primary(@click="newPost")
-				span.icon
-					i.fa.fa-plus
-				span {{ _("NewPost") }}
-
-			.group.filter
-				a.link(@click="changeViewMode('all')", :class="{ active: viewMode == 'all' }") {{ _("AllPosts") }}
-				a.link(@click="changeViewMode('my')", :class="{ active: viewMode == 'my' }") {{ _("MyPosts") }}
-
-		.postForm(v-if="showForm")
-			vue-form-generator(:schema='schema', :model='model', :options='{}', :multiple="false", ref="form", :is-new-model="isNewPost")
-
-			.group.buttons
-				button.button.primary(@click="savePost") {{ _("Save") }}
-				button.button(@click="cancelPost") {{ _("Cancel") }}
-
-
-		transition-group.posts(name="post", tag="ul")
-			li(v-for="post of posts", :key="post.code")
-				article.media
-					.media-left
-						img.avatar(v-if="post.author", :src="post.author.avatar")
-
-						.votes(:class="{ voted: iVoted(post) }")
-							.count.text-center {{ post.votes }}
-							.thumb.text-center(@click="toggleVote(post)")
-								i.fa.fa-thumbs-o-up
-					.media-content
-						h3 {{ post.title }}
-
-						p.content(v-html="markdown(post.content)")
-						hr.full
-						.row
-							.functions.left(v-if="editable(post)")
-								a(:title="_('EditPost')", @click="editPost(post)")
-									i.fa.fa-pencil
-								a(:title="_('DeletePost')", @click="deletePost(post)")
-									i.fa.fa-trash
-							.voters.left(:title="_('Voters')")
-								template(v-for="voter in lastVoters(post)")
-									img(:src="voter.avatar", :title="voter.fullName + ' (' + voter.username + ')'")
-							.right.text-right
-								template(v-if="post.editedAt")
-									small.text-muted {{ editedAgo(post) }}
-									br
-								small.text-muted {{ createdAgo(post) }}
-
-		.loadMore.text-center(v-if="hasMore")
-			button.button.outline(@click="loadMoreRows", :class="{ 'loading': fetching }") {{ _("LoadMore") }}
-		.noMore.text-center(v-if="!hasMore")
-			span.text-muted You reached the end of the list.
-		hr
+<template>
+<div class="container">
+	<div class="main-container">
+		<h2 class="title">{{  _('Messages') }}</h2>
+		<section class="space--xs blog-article-wide">
+			<div class="container">
+				<div class="row">
+					<div class="cta cta--horizontal text-center-xs">
+						<div class="col-sm-4">
+							<h4>24th February 2017</h4>
+						</div>
+						<div class="col-sm-5">
+							<p class="lead">
+								Building an enduring online audience
+							</p>
+						</div>
+						<div class="col-sm-3 text-right text-center-xs">
+							<a class="btn type--uppercase" href="#">
+                                    <span class="btn__text">
+                                        Read Article
+                                    </span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<!--end of row-->
+			</div>
+			<!--end of container-->
+		</section>
+		<section>
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="pagination">
+							<div class="col-xs-6">
+								<a class="type--fine-print" href="#">&laquo; Older Posts</a>
+							</div>
+							<div class="col-xs-6 text-right">
+								<a class="type--fine-print" href="#">Newer Posts &raquo;</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--end of row-->
+			</div>
+			<!--end of container-->
+		</section>
+	</div>
+</div>
 </template>
 
 <script>
@@ -74,8 +61,8 @@
 	export default {
 
 		computed: {
-			...mapGetters("posts", [
-				"posts",
+			...mapGetters("messages", [
+				"messages",
 				"hasMore",
 				"fetching",
 				"sort",

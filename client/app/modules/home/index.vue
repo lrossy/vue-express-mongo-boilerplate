@@ -18,7 +18,9 @@
 						p
 							|	engine_type: {{searchResults[0].engine_type}}
 					.col-sm-2
-						button.btn.btn--secondary.type--uppercase(type='submit') Contact User
+						<!--a.btn.btn&#45;&#45;secondary.type&#45;&#45;uppercase(@click:"'/messages/new'" v-bind:href="'/messages/new'") Contact User-->
+						router-link( :to="{ name:'message', params:{craftID:searchResults[0].code}}", class="btn btn-default type-uppercase")
+							span {{ "Contact User" | i18n }}
 			a.block(v-else)
 				p.lead
 					span No results found

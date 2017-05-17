@@ -68,7 +68,7 @@ module.exports = {
 				return this.Promise.resolve(ctx)
 				.then(ctx => ctx.call(this.name + ".model", { code: ctx.params.code }))
 				.then(model => this.checkModel(model, "app:DeviceNotFound"))
-				.then(model => this.checkModelOwner(model, "user_id", ctx.params.$user))
+				// .then(model => this.checkModelOwner(model, "user_id", ctx.params.$user))
 				.then(doc => this.toJSON(doc))
 				.then(json => this.populateModels(ctx, json));
 			}
@@ -76,6 +76,7 @@ module.exports = {
 		model: {
 			cache: false,
 			publish: false,
+			populate: true,
 			handler(ctx) {
 				return this.resolveModel(ctx);
 			}

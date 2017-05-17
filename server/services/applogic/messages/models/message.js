@@ -29,6 +29,10 @@ let MessageSchema = new Schema({
 		type: Number,
 		ref: "User"
 	},
+	craft:{
+		type: Number,
+		ref: "Craft"
+	},
 	subject: {
 		type: String,
 		trim: true

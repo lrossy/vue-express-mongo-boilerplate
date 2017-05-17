@@ -1,5 +1,5 @@
 <template lang="pug">
-	div
+	div.container
 		admin-page(:schema="schema", :selected="selected", :rows="crafts")
 </template>
 

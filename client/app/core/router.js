@@ -8,7 +8,11 @@ import Counter from "../modules/counter";
 import Devices from "../modules/devices";
 import Crafts from "../modules/crafts";
 import Posts from "../modules/posts";
+// Messages
 import Messages from "../modules/messages";
+import MessageNew from "../modules/messages/new";
+
+
 import Profile from "../modules/profile";
 
 Vue.use(VueRouter);
@@ -21,6 +25,7 @@ export default new VueRouter({
 		{ path: "/crafts", component: Crafts },
 		{ path: "/posts", component: Posts },
 		{ path: "/messages", component: Messages },
+		{ name: "message", path: "/messages/new/:craftID?", component: MessageNew },
 		{ path: "/counter", component: Counter },
 		{ path: "/profile", component: Profile }
 		// { path: "/users", component: User, meta: { needRole: "admin" } },

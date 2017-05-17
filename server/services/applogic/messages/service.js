@@ -22,7 +22,7 @@ module.exports = {
 		collection: Message,
 
 		hashedIdentity: true,
-		modelPropFilter: "fromUser toUser messages createdAt editedAt",
+		modelPropFilter: "fromUser toUser craft messages createdAt editedAt",
 
 		modelPopulates: {
 			"fromUser": "persons.model",
@@ -34,13 +34,13 @@ module.exports = {
 	actions: {
 		list: {
 			cache: {
-				keys: [ "limit", "offset", "sort", "filter", "fromUser", "toUser" ]
+				keys: [ "limit", "offset", "sort", "filter", "fromUser", "toUser", "craft" ]
 			},
 			defaultMethod: "get",
 			handler(ctx) {
 				let filter = {};
 
-				if (ctx.params.filter == "recieved"){
+				if (ctx.params.filter == "received"){
 					filter.fromUser =ctx.params.$user.id;
 				}
 				else{
