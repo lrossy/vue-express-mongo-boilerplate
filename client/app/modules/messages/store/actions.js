@@ -22,6 +22,22 @@ export const getRows = function ({commit, state}, loadMore) {
 	});
 };
 
+export const saveRow = function(store, model) {
+	service.rest("create", model).then((data) => {
+		created(store, data);
+	}).catch((err) => {
+		toastr.error(err.message);
+	});
+};
+
+export const updateRow = function(store, model) {
+	service.rest("update", model).then((data) => {
+		updated(store, data);
+	}).catch((err) => {
+		toastr.error(err.message);
+	});
+};
+
 export const loadMoreRows = function(context) {
 	return getRows(context, true);
 };
@@ -34,4 +50,16 @@ export const changeSort = function(store, sort) {
 export const changeViewMode = function(store, viewMode) {
 	store.commit(CHANGE_VIEWMODE, viewMode);
 	getRows(store);
+};
+
+export const created = function({ commit }, model) {
+	commit(ADD, model);
+};
+
+export const updated = function({ commit }, model) {
+	commit(UPDATE, model);
+};
+
+export const removed = function({ commit }, model) {
+	commit(REMOVE, model);
 };

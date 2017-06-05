@@ -1,6 +1,8 @@
 <template>
 <div class="container">
 	<div class="main-container">
+		<!--<div v-html="this.$options.filters.prettyJSON(orderedUsers())"></div>-->
+
 		<section class="bg--secondary space--sm conversation">
 			<div class="container">
 				<div class="row">
@@ -58,6 +60,27 @@
 								</div>
 							</form>
 						</div>
+						<div class="comments conversation__comments">
+							<ul class="comments__list">
+								<li v-for="message of orderedUsers()" :key="message._id">
+									<div class="comment">
+										<div class="comment__avatar">
+											<!--<img alt="Image" src="img/avatar-round-2.png">-->
+										</div>
+										<div class="comment__body">
+											<h5 class="type--fine-print">User: {{message.fromUser}}</h5>
+											<div class="comment__meta">
+												<span>{{message.timestamp}}</span>
+											</div>
+											<p>
+												{{message.message}}
+											</p>
+										</div>
+									</div>
+									<!--end comment-->
+								</li>
+							</ul>
+						</div>
 					</div>
 				</div>
 				<!--end of row-->
@@ -94,7 +117,7 @@
 				return 'Message craft owner for S\\N: ' + this.craft.serial_number;
 				//this.firstName + ' ' + this.lastName
 			}
-		},
+	},
 
 		/**
 		 * Set page schema as data property
@@ -103,28 +126,11 @@
 			return {
 				id: 'test',
 				craft:{},
+				conversation:{},
 				model: null,
 				isNewModel: false,
 				schema: {
 					fields: [
-						{
-							type: "input",
-							inputType: "text",
-							label: "ID",
-							model: "code",
-							readonly: true,
-							disabled: true
-						},
-						{
-							type: "input",
-							inputType: "text",
-							label: "Subject",
-							model: "subject",
-							featured: true,
-							required: true,
-							placeholder: "Subject",
-							validator: validators.string
-						},
 						{
 							type: "textArea",
 							label: "Message",
@@ -164,27 +170,39 @@
 				 * @param  {Object} res Post object
 				 */
 				updated(res) {
-					this.updated(res.data);
+//					this.updated(res.data);
+					this.conversation = res.data;
+					this.craft = res.data.craft;
+//					alert(JSON.stringify(res.data))
 					toast.success(this._("PostNameUpdated", res), this._("PostUpdated"));
-				},
-
-				/**
-				 * Post removed
-				 * @param  {Object} res Post object
-				 */
-				removed(res) {
-					this.removed(res.data);
-					toast.success(this._("PostNameDeleted", res), this._("PostDeleted"));
 				}
 			}
 		},
 
 		methods: {
-				getCraft: function(){
+			orderedUsers: function () {
+				return _.orderBy(this.conversation.messages, 'timestamp', 'desc')
+			},
+				getCraft: function(craftID){
 					return axios.get("/api/crafts/" + this.$route.params.craftID).then((response) => {
 						let res = response.data;
 					if (res.status == 200 && res.data){
 						this.craft = res.data;
+					}
+					else{
+						console.error("Request error!", res.error);
+					}
+				}).catch((response) => {
+						console.error("Request error!", response.statusText);
+				});
+
+				},
+			getConversation: function(){
+					return axios.get("/api/messages/" + this.$route.params.messageID).then((response) => {
+						let res = response.data;
+					if (res.status == 200 && res.data){
+						this.conversation = res.data;
+						this.craft = res.data.craft;
 					}
 					else{
 						console.error("Request error!", res.error);
@@ -219,7 +237,7 @@
 			},
 			newMessage() {
 				this.model = schemaUtils.createDefaultObject(this.schema);
-				this.model.code = this.craft.code;
+				this.model.code = this.conversation.code;
 //				alert(JSON.stringify(this.model));
 
 				this.focusFirstInput();
@@ -228,12 +246,12 @@
 //				this.model.subject = null;
 //				this.model.content = null;
 				this.model = schemaUtils.createDefaultObject(this.schema);
-				this.model.code = this.craft.code;
+				this.model.code = this.conversation.code;
 			},
 			saveMessage(model){
 
-				service.rest("create", model).then((data) => {
-					alert(JSON.stringify(data));
+				service.rest("update", model).then((data) => {
+//					alert(JSON.stringify(data));
 
 			}).catch((err) => {
 					toastr.error(err.message);
@@ -246,7 +264,7 @@
 		 * Call if the component is created
 		 */
 		created() {
-			this.getCraft().then(res => {
+			this.getConversation().then(res => {
 				this.newMessage();
 			});
 

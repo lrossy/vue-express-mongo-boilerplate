@@ -22,7 +22,7 @@ module.exports = {
 		collection: User,
 
 		hashedIdentity: true,
-		modelPropFilter: "code username fullName avatar lastLogin roles"
+		modelPropFilter: "code username fullName avatar"
 	},
 
 	// Exposed actions
@@ -76,7 +76,7 @@ module.exports = {
 
 				posts(limit: Int, offset: Int, sort: String): [Post]
 			}
-		`,		
+		`,
 		//				posts(limit: Int, offset: Int, sort: String): [Post]
 
 		mutation: `
@@ -88,7 +88,7 @@ module.exports = {
 			},
 
 			Person: {
-				
+
 				posts(person, args, context) {
 					let ctx = context.ctx;
 					let author = User.schema.methods["decodeID"](person.code);
@@ -96,7 +96,7 @@ module.exports = {
 				}
 			}
 		}
-	}	
+	}
 };
 
 /*
@@ -117,7 +117,7 @@ fragment personFields on Person {
   roles
   avatar
   lastLogin
-  
+
   posts(sort: "-createdAt") {
     code
     title

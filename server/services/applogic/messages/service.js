@@ -24,26 +24,26 @@ module.exports = {
 		collection: Message,
 
 		hashedIdentity: true,
-		modelPropFilter: "code subject craft createdAt updatedAt",
+		modelPropFilter: "code toUser fromUser subject craft createdAt updatedAt messages",
 
 		modelPopulates: {
-			"craft": "crafts.model"
+			"craft": "crafts.model",
+			"fromUser": "persons.model",
+			"toUser": "persons.model"
 		}
 	},
 
 	// Exposed actions
 	actions: {
 		list: {
-			cache: {
-				keys: [ "limit", "offset", "sort", "filter", "fromUser", "toUser", "craft" ]
-			},
+			cache: false,
 			defaultMethod: "get",
 			handler(ctx) {
 				let filter = {};
 
 				filter.fromUser =ctx.params.$user.id;
 
-				let query = this.collection.find(filter);
+				let query = this.collection.find({$or: [{'fromUser': ctx.params.$user.id}, {'toUser': ctx.params.$user.id}]});
 
 				// console.log('query', query);
 				return this.applyFilters(query, ctx).exec()
@@ -64,7 +64,30 @@ module.exports = {
 				return this.Promise.resolve(ctx)
 					.then(ctx => this.resolveID(ctx))
 					.then(modelID => this.checkModel(modelID, "app:PostNotFound"))
+					.then(modelID => this.collection.findById(modelID).exec())
+					// .then(modelID => this.collection.findById(modelID).exec(
+					// 	function(err, docs) {
+                    //
+					// 		console.log('err',err);
+					// 		console.log('docs',docs);
+					// 		var options = {
+					// 			path: 'messages.fromUser',
+					// 			model: 'User'
+					// 		};
+                    //
+					// 		// if (err) return res.json(500);
+					// 		Message.populate(docs, options, function (err, projects) {
+                    //
+					// 			// res.json(projects);
+					// 		});
+					// 	}
+                    //
+					// ))
 					.then(doc => this.toJSON(doc))
+					// .then(doc => {
+					// 	console.log('doc', doc)
+					// 	this.toJSON(doc)
+					// })
 					.then(json => this.populateModels(ctx, json));
 			}
 		},
@@ -112,48 +135,50 @@ module.exports = {
 						return json;
 					});
 			}
-		}
-	},
+		},
 
-	update: {
-		defaultMethod: "put",
-		needModel: true,
-		permission: C.PERM_LOGGEDIN,
-		handler(ctx) {
-			return this.Promise.resolve(ctx)
-				.then(ctx => this.resolveID(ctx))
-				.then(modelID => this.checkModel(modelID, "app:PostNotFound"))
-				.then(modelID => this.collection.findById(modelID).exec())
-				// .then(doc => this.checkModelOwner(doc, "author", ctx.params.$user))
-				.then(doc => {
-					// Check user is on voters
-					if (doc.fromUser !== ctx.params.$user.id && doc.toUser !== ctx.params.$user.id)
-						throw new E.RequestError(E.BAD_REQUEST, C.NO_ACCESS, "You don't have access to this conversation");
-					return doc;
-				})
-				.then(doc => Post.findByIdAndUpdate(doc.id, {
-					$push: {
-						"messages": {
-							fromUser: ctx.params.$user.id,
-							message: ctx.params.message,
-							timestamp: Date.now()
+		update: {
+			defaultMethod: "put",
+			needModel: true,
+			permission: C.PERM_LOGGEDIN,
+			handler(ctx) {
+				return this.Promise.resolve(ctx)
+					.then(ctx => this.resolveID(ctx))
+					.then(modelID => this.checkModel(modelID, "app:PostNotFound"))
+					.then(modelID => this.collection.findById(modelID).exec())
+					// .then(doc => this.checkModelOwner(doc, "author", ctx.params.$user))
+					.then(doc => {
+						// Check user is on voters
+						if (doc.fromUser != ctx.params.$user.id && doc.toUser != ctx.params.$user.id)
+							throw new E.RequestError(E.BAD_REQUEST, C.NO_ACCESS, "You don't have access to this conversation");
+						return doc;
+					})
+					.then(doc => Message.findByIdAndUpdate(doc.id, {
+						$push: {
+							"messages": {
+								fromUser: ctx.params.$user.id,
+								message: ctx.params.content,
+								timestamp: Date.now()
+							}
 						}
-					}
-				}, {
-					"new": true
-				}))
-				.then(doc => this.toJSON(doc))
-				.then(json => this.populateModels(ctx, json))
-				.then((json) => {
-					this.notifyModelChanges(ctx, "updated", json, ctx.params.$user);
+					}, {
+						"new": true
+					}))
+					.then(doc => this.toJSON(doc))
+					.then(json => this.populateModels(ctx, json))
+					.then((json) => {
+						this.notifyModelChanges(ctx, "updated", json, ctx.params.$user);
 
-					// Clear cached values
-					this.clearCache();
+						// Clear cached values
+						this.clearCache();
 
-					return json;
-				});
-		}
+						return json;
+					});
+			}
+		},
 	},
+
+
 
 	// Event listeners
 	events: {

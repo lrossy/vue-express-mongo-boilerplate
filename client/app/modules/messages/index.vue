@@ -1,7 +1,7 @@
 <template>
 <div class="container">
 	<div class="main-container">
-		<div v-html="this.$options.filters.prettyJSON(messages)"></div>
+		<!--<div v-html="this.$options.filters.prettyJSON(messages)"></div>-->
 
 		<h2 class="title">{{  _('Messages') }}</h2>
 		<section v-for="message of messages" :key="message.code" class="space--xs blog-article-wide">
@@ -17,13 +17,11 @@
 							</p>
 						</div>
 						<div class="col-sm-3 text-right text-center-xs">
-							<a class="btn type--uppercase" href="#">
-								<router-link :to="{ name:'message_conversation', params:{craftID:message.code}}" class="type-uppercase">
-										<span class="btn__text">
-														{{ "Contact User" | i18n }}
-										</span>
-								</router-link>
-							</a>
+							<router-link :to="{ name:'message_conversation', params:{messageID:message.code}}" class="btn btn-default type-uppercase">
+									<span>
+													{{ "Contact User" | i18n }}
+									</span>
+							</router-link>
 						</div>
 					</div>
 				</div>

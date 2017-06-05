@@ -1,7 +1,7 @@
 <template lang="pug">
 	.container
 		h2.title {{ _('Posts') }}
-		<!--pre(v-html="this.$options.filters.prettyJSON(posts)")-->
+		pre(v-html="this.$options.filters.prettyJSON(posts)")
 
 		.header.flex.row.justify-space-between
 			.group.sort
