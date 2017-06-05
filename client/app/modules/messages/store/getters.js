@@ -1,4 +1,4 @@
-export function posts(state) {
+export function messages(state) {
 	return state.rows;
 }
 

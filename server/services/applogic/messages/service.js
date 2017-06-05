@@ -8,6 +8,8 @@ let E = require("../../../core/errors");
 let _ = require("lodash");
 
 let Message = require("./models/message");
+let Craft 		= require("../crafts/models/craft");
+
 
 module.exports = {
 	name: "messages",
@@ -22,11 +24,10 @@ module.exports = {
 		collection: Message,
 
 		hashedIdentity: true,
-		modelPropFilter: "fromUser toUser craft messages createdAt editedAt",
+		modelPropFilter: "code subject craft createdAt updatedAt",
 
 		modelPopulates: {
-			"fromUser": "persons.model",
-			"toUser": "persons.model"
+			"craft": "crafts.model"
 		}
 	},
 
@@ -40,15 +41,11 @@ module.exports = {
 			handler(ctx) {
 				let filter = {};
 
-				if (ctx.params.filter == "received"){
-					filter.fromUser =ctx.params.$user.id;
-				}
-				else{
-					filter.toUser =ctx.params.$user.id;
-				}
+				filter.fromUser =ctx.params.$user.id;
 
 				let query = this.collection.find(filter);
 
+				// console.log('query', query);
 				return this.applyFilters(query, ctx).exec()
 					.then(docs => this.toJSON(docs))
 					.then(json => this.populateModels(ctx, json));
@@ -84,19 +81,25 @@ module.exports = {
 			defaultMethod: "post",
 			handler(ctx) {
 				return this.Promise.resolve(ctx)
-					.then(() => {
-						let message = new Message({
-							fromUser: ctx.params.$user.id,
-							toUser: ctx.params.toUser,
-							message: ctx.params.$user.id,
-							subject: ctx.params.subject,
-							messages: [{
-								message: ctx.params.message,
+					.then(ctx => {
+						// let craft = Craft.schema.methods["decodeID"](ctx.params.code);
+
+						return ctx.call("crafts" + ".model", { code: ctx.params.code }).then(populatedDocs => {
+							//todo: if there is no craft, return error
+							let to_user = populatedDocs.user_id;
+							let message = new Message({
 								fromUser: ctx.params.$user.id,
-								timestamp: Date.now()
-							}]
+								toUser: to_user,
+								craft: populatedDocs.id,
+								subject: ctx.params.subject,
+								messages: [{
+									message: ctx.params.content,
+									fromUser: ctx.params.$user.id,
+									timestamp: Date.now()
+								}]
+							});
+							return message.save();
 						});
-						return message.save();
 					})
 					.then(doc => this.toJSON(doc))
 					.then(json => this.populateModels(ctx, json))

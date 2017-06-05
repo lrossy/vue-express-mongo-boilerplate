@@ -22,7 +22,7 @@ module.exports = {
 		collection: Craft,
 
 		hashedIdentity: true,
-		modelPropFilter: "code registration_id manufacturer model serial_number class max_takeoff_w num_engines engine_type user_id createdAt updatedAt",
+		modelPropFilter: "code registration_id manufacturer model serial_number class max_takeoff_w num_engines engine_type",
 
 		modelPopulates: {
 			"author": "persons.model"

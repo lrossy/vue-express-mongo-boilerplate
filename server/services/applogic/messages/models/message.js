@@ -68,9 +68,6 @@ let MessageSchema = new Schema({
 			}
 		}
 	],
-	editedAt: {
-		type: Date
-	},
 	metadata: {}
 }, schemaOptions);
 

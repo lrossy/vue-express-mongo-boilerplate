@@ -11,6 +11,7 @@ import Posts from "../modules/posts";
 // Messages
 import Messages from "../modules/messages";
 import MessageNew from "../modules/messages/new";
+import MessageConversation from "../modules/messages/conversation";
 
 
 import Profile from "../modules/profile";
@@ -26,6 +27,7 @@ export default new VueRouter({
 		{ path: "/posts", component: Posts },
 		{ path: "/messages", component: Messages },
 		{ name: "message", path: "/messages/new/:craftID?", component: MessageNew },
+		{ name: "message_conversation", path: "/messages/conversation/:craftID?", component: MessageConversation },
 		{ path: "/counter", component: Counter },
 		{ path: "/profile", component: Profile }
 		// { path: "/users", component: User, meta: { needRole: "admin" } },
