@@ -79,7 +79,7 @@ module.exports = {
 					.then(doc => this.toJSON(doc))
 					.then(json => this.populateModels(ctx, json))
 					.then((json) => {
-						console.log('json',json);
+						//console.log('json',json);
 						// console.log('ctx',ctx);
 						this.notifyModelChanges(ctx, "updated", json, ctx.params.$user);
 

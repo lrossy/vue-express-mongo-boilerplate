@@ -3,7 +3,18 @@
 	<div class="main-container">
 		<!--<div v-html="this.$options.filters.prettyJSON(messages)"></div>-->
 
-		<h2 class="title">{{  _('Messages') }}</h2>
+		<h2 class="title">{{  _('Message Center') }}</h2>
+		<section v-if="!messages[0]">
+			<div class="container">
+				<div class="row">
+					<div class="cta cta--horizontal text-center-xs">
+						<div class="col-sm-12">
+							<h4>You have no messages</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 		<section v-for="message of messages" :key="message.code" class="space--xs blog-article-wide">
 			<div class="container">
 				<div class="row">
@@ -19,7 +30,7 @@
 						<div class="col-sm-3 text-right text-center-xs">
 							<router-link :to="{ name:'message_conversation', params:{messageID:message.code}}" class="btn btn-default type-uppercase">
 									<span>
-													{{ "Contact User" | i18n }}
+													{{ "View Conversation" | i18n }}
 									</span>
 							</router-link>
 						</div>
@@ -34,14 +45,14 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-12">
-						<div class="pagination">
-							<div class="col-xs-6">
-								<a class="type--fine-print" href="#">&laquo; Older Posts</a>
-							</div>
-							<div class="col-xs-6 text-right">
-								<a class="type--fine-print" href="#">Newer Posts &raquo;</a>
-							</div>
-						</div>
+						<!--<div class="pagination">-->
+							<!--<div class="col-xs-6">-->
+								<!--<a class="type&#45;&#45;fine-print" href="#">&laquo; Older Posts</a>-->
+							<!--</div>-->
+							<!--<div class="col-xs-6 text-right">-->
+								<!--<a class="type&#45;&#45;fine-print" href="#">Newer Posts &raquo;</a>-->
+							<!--</div>-->
+						<!--</div>-->
 					</div>
 				</div>
 				<!--end of row-->

@@ -233,8 +233,10 @@
 			saveMessage(model){
 
 				service.rest("create", model).then((data) => {
-					alert(JSON.stringify(data));
+					//redirect to the conversation
 
+					alert(JSON.stringify(data));
+				this.$router.push('/messages/conversation/' + data.code);
 			}).catch((err) => {
 					toastr.error(err.message);
 			});

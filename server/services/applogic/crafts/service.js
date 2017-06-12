@@ -8,6 +8,7 @@ let E 			= require("../../../core/errors");
 let _			= require("lodash");
 
 let Craft 		= require("./models/craft");
+let uuidV4 		= require("../../../libs/uuid");
 
 module.exports = {
 	name: "crafts",
@@ -88,7 +89,7 @@ module.exports = {
 				return this.Promise.resolve(ctx)
 				.then(() => {
 					let craft = new Craft({
-						registration_id: ctx.params.registration_id,
+						registration_id: null,
 						manufacturer: ctx.params.manufacturer,
 						model: ctx.params.model,
 						serial_number: ctx.params.serial_number,
@@ -99,6 +100,7 @@ module.exports = {
 						user_id: ctx.params.$user.id
 					});
 
+					craft.registration_id = uuidV4();
 					return craft.save();
 				})
 				.then(doc => this.toJSON(doc))
@@ -159,7 +161,7 @@ module.exports = {
 					this.notifyModelChanges(ctx, "updated", json, ctx.params.$user);
 
 					// console.log('ctx',ctx);
-					console.log('ctx.params',ctx.params);
+					//console.log('ctx.params',ctx.params);
 					// Clear cached values
 					this.clearCache();
 
@@ -214,7 +216,7 @@ module.exports = {
 				// console.log('filter',filter)
 				// let query = this.collection.find(filter);
 				let query = this.collection.find({
-					"serial_number": ctx.params.term
+					"registration_id": ctx.params.term
 				});
 				return this.applyFilters(query, ctx).exec()
 					.then(docs => this.toJSON(docs))
