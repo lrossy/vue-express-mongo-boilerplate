@@ -3,7 +3,13 @@
 	<div class="main-container">
 		<!--<div v-html="this.$options.filters.prettyJSON(messages)"></div>-->
 
-		<h2 class="title">{{  _('Message Center') }}</h2>
+		<h2 class="title">{{  _('Message Center') }} - {{viewMode}}</h2>
+		<div class="header flex row justify-space-between">
+			<div class="group filter">
+				<a @click="changeViewMode('sent')" class="link active">Sent</a>
+				<a @click="changeViewMode('received')" class="link">Received</a>
+			</div>
+		</div>
 		<section v-if="!messages[0]">
 			<div class="container">
 				<div class="row">

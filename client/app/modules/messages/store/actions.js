@@ -2,7 +2,7 @@ import Vue from "vue";
 import toastr from "../../../core/toastr";
 import Service from "../../../core/service";
 import { LOAD, LOAD_MORE, ADD, UPDATE, VOTE, UNVOTE, REMOVE,
-	NO_MORE_ITEMS, FETCHING, CHANGE_SORT, CHANGE_VIEWMODE } from "./types";
+	NO_MORE_ITEMS, FETCHING, CHANGE_SORT, CHANGE_VIEWMODE, CHANGE_OFFSET } from "./types";
 
 export const NAMESPACE	 	= "/api/messages";
 
@@ -10,9 +10,13 @@ let service = new Service("messages");
 
 export const getRows = function ({commit, state}, loadMore) {
 	commit(FETCHING, true);
+	commit(CHANGE_OFFSET, 0);
+
 	return service.rest("list", { filter: state.viewMode, sort: state.sort, limit: 10, offset: state.offset }).then((data) => {
-		if (data.length == 0)
-			commit(NO_MORE_ITEMS);
+		if (data.length == 0){
+			commit(loadMore ? LOAD_MORE : LOAD, data);
+			// commit(NO_MORE_ITEMS);
+		}
 		else
 			commit(loadMore ? LOAD_MORE : LOAD, data);
 	}).catch((err) => {

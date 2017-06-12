@@ -10,6 +10,7 @@ export const CLEAR 			= "CLEAR";
 
 export const CHANGE_SORT	 = "CHANGE_SORT";
 export const CHANGE_VIEWMODE = "CHANGE_VIEWMODE";
+export const CHANGE_OFFSET = "CHANGE_OFFSET";
 
 export const VOTE			= "VOTE";
 export const UNVOTE			= "UNVOTE";

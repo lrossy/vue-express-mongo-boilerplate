@@ -1,7 +1,7 @@
 import {
 	LOAD, LOAD_MORE, ADD, SELECT, CLEAR_SELECT, UPDATE, REMOVE,
 	CLEAR, NO_MORE_ITEMS, FETCHING,
-	CHANGE_SORT, CHANGE_VIEWMODE
+	CHANGE_SORT, CHANGE_VIEWMODE, CHANGE_OFFSET
 } from "./types";
 
 import { each, find, assign, remove, isArray } from "lodash";
@@ -9,16 +9,17 @@ import { each, find, assign, remove, isArray } from "lodash";
 const state = {
 	rows: [],
 	offset: 0,
-	hasMore: true,
+	hasMore: false,
 	fetching: false,
 	sort: "-createdAt",
-	viewMode: "all"
+	viewMode: "received"
 };
 
 const mutations = {
 	[LOAD] (state, models) {
 		state.rows.splice(0);
 		state.rows.push(...models);
+		// state.offset = 0;
 		state.offset = state.rows.length;
 	},
 
@@ -38,6 +39,11 @@ const mutations = {
 
 	[CHANGE_SORT] (state, sort) {
 		state.sort = sort;
+		mutations[CLEAR](state);
+	},
+
+	[CHANGE_OFFSET] (state, offset) {
+		state.offset = offset;
 		mutations[CLEAR](state);
 	},
 

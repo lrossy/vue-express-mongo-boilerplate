@@ -1,7 +1,7 @@
-import { 
-	LOAD, LOAD_MORE, ADD, SELECT, CLEAR_SELECT, UPDATE, REMOVE, 
+import {
+	LOAD, LOAD_MORE, ADD, SELECT, CLEAR_SELECT, UPDATE, REMOVE,
 	CLEAR, NO_MORE_ITEMS, FETCHING,
-	CHANGE_SORT, CHANGE_VIEWMODE 
+	CHANGE_SORT, CHANGE_VIEWMODE
 } from "./types";
 
 import { each, find, assign, remove, isArray } from "lodash";
@@ -34,7 +34,7 @@ const mutations = {
 
 	[FETCHING] (state, status) {
 		state.fetching = status;
-	},	
+	},
 
 	[CHANGE_SORT] (state, sort) {
 		state.sort = sort;
@@ -66,7 +66,7 @@ const mutations = {
 
 	[REMOVE] (state, model) {
 		state.rows = state.rows.filter(item => item.code != model.code);
-	}	
+	}
 };
 
 import * as getters from "./getters";

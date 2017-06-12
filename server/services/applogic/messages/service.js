@@ -41,9 +41,14 @@ module.exports = {
 			handler(ctx) {
 				let filter = {};
 
-				filter.fromUser =ctx.params.$user.id;
+				if (ctx.params.filter == "received"){
+					filter.toUser = ctx.params.$user.id;
+				}
+				else
+					filter.fromUser = ctx.params.$user.id;
 
-				let query = this.collection.find({$or: [{'fromUser': ctx.params.$user.id}, {'toUser': ctx.params.$user.id}]});
+				let query = this.collection.find(filter);
+				// let query = this.collection.find({$or: [{'fromUser': ctx.params.$user.id}, {'toUser': ctx.params.$user.id}]});
 
 				// console.log('query', query);
 				return this.applyFilters(query, ctx).exec()
