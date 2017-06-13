@@ -3,7 +3,7 @@
 		.container
 			.row
 				.col-sm-6
-					img.logo(alt='Image', src='/app/images/logo-dark.png')
+					img.logo(alt='Image', src='~images/logo-dark.png')
 					ul.list-inline.list--hover
 						li
 							a(href='#')

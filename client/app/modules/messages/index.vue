@@ -15,7 +15,7 @@
 				<div class="row">
 					<div class="cta cta--horizontal text-center-xs">
 						<div class="col-sm-12">
-							<h4>You have no messages</h4>
+							<h4>You have no {{viewMode}} messages</h4>
 						</div>
 					</div>
 				</div>

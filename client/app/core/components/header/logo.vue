@@ -1,8 +1,8 @@
 <template lang="pug">
 	.bar__module
 		router-link(tag="a", to="/")
-			img.logo.logo-dark(alt='logo', src='/app/images/logo-dark.png')
-			img.logo.logo-light(alt='logo', src='/app/images/logo-light.png')
+			img.logo.logo-dark(alt='logo', src='~images/logo-dark.png')
+			img.logo.logo-light(alt='logo', src='~images/logo-dark.png')
 	// end module
 </template>
 

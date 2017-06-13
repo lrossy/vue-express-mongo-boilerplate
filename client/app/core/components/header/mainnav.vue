@@ -19,9 +19,9 @@
 							router-link(tag="li", to="/crafts")
 								a(:title="Crafts")
 									span {{ "Your Crafts" | i18n }}
-							router-link(tag="li", to="/posts")
-								a(:title="_('Posts')")
-									span {{ "Posts" | i18n }}
+							<!--router-link(tag="li", to="/posts")-->
+								<!--a(:title="_('Posts')")-->
+									<!--span {{ "Posts" | i18n }}-->
 							router-link(tag="li", to="/messages")
 								a(:title="_('Messages')")
 									span {{ "Messages" | i18n }}
