@@ -11,7 +11,6 @@ baseWpConfig.entry.frontend.unshift("webpack-hot-middleware/client");
 
 module.exports = merge(baseWpConfig, {
 	devtool: "#inline-source-map",
-
 	module: {
 		rules: [
 			{
